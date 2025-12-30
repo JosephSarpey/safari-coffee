@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Nothing+You+Could+Do&family=Great+Vibes&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black text-white font-serif overflow-x-hidden;
+  }
+  
+  html {
+    @apply overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply uppercase mb-4;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  .btn-primary {
+    @apply bg-[#c49b63] text-black px-6 py-3 rounded-none hover:bg-white transition-all uppercase tracking-[0.2em] text-[13px] font-normal shadow-lg;
+  }
+
+  .btn-white-outline {
+    @apply bg-transparent border border-white/80 text-white px-6 py-3 rounded-none hover:bg-[#c49b63] hover:border-[#c49b63] hover:text-black transition-all uppercase tracking-[0.2em] text-[13px] font-normal;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+
+  .font-josefin {
+    font-family: 'Josefin Sans', sans-serif;
+  }
+
+  .font-nothing {
+    font-family: 'Nothing You Could Do', cursive;
+  }
+
+  .font-great-vibes {
+    font-family: 'Great Vibes', cursive;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-zinc-900;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-[#c49b63] hover:bg-white transition-colors;
+}

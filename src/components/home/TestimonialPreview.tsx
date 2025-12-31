@@ -1,6 +1,5 @@
 "use client";
 
-import PageHeader from "@/components/shared/PageHeader";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -11,41 +10,35 @@ const testimonials = [
     name: "Roger Scott",
     role: "Marketing Manager",
     text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_1.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
     image: "/images/person_2.jpg"
   },
   {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
+    name: "Sarah Jones",
+    role: "Interior Designer",
+    text: "Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.",
     image: "/images/person_3.jpg"
   },
   {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
+    name: "James Doe",
+    role: "Coffee Lover",
+    text: "A small river named Duden flows by their place and supplies it with the necessary regelialia.",
     image: "/images/person_4.jpg"
   },
   {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_1.jpg"
+    name: "Alice Smith",
+    role: "Food Critic",
+    text: "It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
+    image: "/images/person_2.jpg"
   },
   {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_2.jpg"
+    name: "Bob Brown",
+    role: "Regular Customer",
+    text: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.",
+    image: "/images/person_3.jpg"
   }
 ];
 
-export default function TestimonialPage() {
+export default function TestimonialPreview() {
   const [current, setCurrent] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(3);
 
@@ -77,21 +70,43 @@ export default function TestimonialPage() {
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
   }, [totalSlides]);
-  return (
-    <div className="bg-zinc-950 min-h-screen">
-      <PageHeader title="Testimonials" subtitle="Reviews" backgroundImage="/images/gallery-2.jpg" />
-      
-      <section className="section-padding">
-        <div className="container">
-          <header className="text-center space-y-4 max-w-2xl mx-auto mb-20">
-            <span className="font-nothing text-primary text-2xl">Testimony</span>
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-widest text-white">Our Happy Customers</h2>
-            <p className="text-gray-400">
-              Hear from our fellow explorers who have experienced the bold flavors of Safari Roast.
-            </p>
-          </header>
 
-          <div className="relative group/carousel">
+  return (
+    <section className="section-padding bg-zinc-950 relative overflow-hidden">
+        {/* Background Overlay */}
+        <div className="absolute right-0 top-0 w-1/2 h-full bg-primary/5 pointer-events-none -skew-x-12 translate-x-1/4" />
+
+        <div className="container relative z-10">
+            <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
+                <motion.span 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="font-great-vibes text-primary text-3xl"
+                >
+                    Testimony
+                </motion.span>
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    className="text-4xl md:text-5xl font-black uppercase tracking-widest text-white"
+                >
+                    Customers Say
+                </motion.h2>
+                <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                    className="text-gray-400 font-light"
+                >
+                    Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+                </motion.p>
+            </div>
+
+            <div className="relative group/carousel">
                 <div className="overflow-hidden">
                     <motion.div 
                         className="flex"
@@ -103,22 +118,22 @@ export default function TestimonialPage() {
                                 {testimonials.slice(slideIndex * itemsPerView, (slideIndex + 1) * itemsPerView).map((item, index) => (
                                     <div 
                                         key={index}
-                                        className="bg-zinc-900 p-8 relative space-y-6 group"
+                                        className="bg-zinc-900/50 border border-primary/5 p-8 relative space-y-6 group hover:border-primary/20 transition-colors"
                                     >
-                                        <Quote className="absolute top-8 right-8 h-12 w-12 text-primary/10 group-hover:text-primary transition-colors" />
+                                        <div className="flex justify-between items-start">
+                                            <div className="relative h-16 w-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors">
+                                                <Image src={item.image} alt={item.name} fill sizes="64px" className="object-cover" />
+                                            </div>
+                                            <Quote className="h-8 w-8 text-primary/20 group-hover:text-primary transition-colors" />
+                                        </div>
                                         
-                                        <p className="text-gray-400 italic leading-relaxed relative z-10">
+                                        <p className="text-gray-400 italic text-sm leading-relaxed relative z-10">
                                             "{item.text}"
                                         </p>
 
-                                        <div className="flex items-center space-x-4 pt-4">
-                                            <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-primary/20">
-                                                <Image src={item.image} alt={item.name} fill sizes="56px" className="object-cover" />
-                                            </div>
-                                            <div>
-                                                <h4 className="text-white font-bold uppercase tracking-widest text-sm">{item.name}</h4>
-                                                <span className="text-primary text-[10px] uppercase font-black">{item.role}</span>
-                                            </div>
+                                        <div className="pt-4 border-t border-primary/10">
+                                            <h4 className="text-white font-bold uppercase tracking-widest text-xs">{item.name}</h4>
+                                            <span className="text-primary text-[10px] uppercase font-bold tracking-wider">{item.role}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -156,17 +171,6 @@ export default function TestimonialPage() {
                 </div>
             </div>
         </div>
-      </section>
-
-      {/* Featured Quote Section */}
-      <section className="py-24 bg-primary text-black">
-        <div className="container text-center max-w-3xl space-y-6">
-          <span className="uppercase text-xs font-black tracking-[0.4em]">Founder's Note</span>
-          <h2 className="text-3xl font-black italic">"Our mission is to bring the spirit of the Kenyan safari to every cup of coffee we serve."</h2>
-          <div className="h-1 w-20 bg-black mx-auto" />
-          <p className="font-bold uppercase tracking-widest text-sm">— Safari Roast Team</p>
-        </div>
-      </section>
-    </div>
+    </section>
   );
 }

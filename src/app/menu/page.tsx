@@ -1,14 +1,25 @@
 import { products } from "@/data/products";
+import { menuItems } from "@/data/menu-items";
 import ProductCard from "@/components/shared/ProductCard";
 import PageHeader from "@/components/shared/PageHeader";
+import MenuInfoBar from "@/components/menu/MenuInfoBar";
+import MenuList from "@/components/menu/MenuList";
 
 export default function MenuPage() {
   return (
     <div className="bg-zinc-950 min-h-screen">
       <PageHeader title="Our Menu" subtitle="Menu" backgroundImage="/images/safari_image_1.jpeg" />
       
-      <section className="section-padding">
+      <MenuInfoBar />
+      
+      <MenuList items={menuItems} />
+
+      <section className="section-padding bg-black">
         <div className="container">
+          <div className="text-center mb-12">
+            <span className="font-nothing text-primary text-3xl block mb-2">Discover</span>
+            <h2 className="text-4xl font-black uppercase tracking-widest text-white">Our Products</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -18,7 +29,7 @@ export default function MenuPage() {
       </section>
 
       {/* Specialty Section from Template */}
-      <section className="py-20 border-t border-primary/5">
+      <section className="py-20 border-t border-primary/5 bg-zinc-900">
         <div className="container text-center space-y-8">
           <header className="space-y-2">
             <span className="font-nothing text-primary text-2xl">Quality</span>

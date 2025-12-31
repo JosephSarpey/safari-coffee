@@ -112,9 +112,9 @@ export default function CartPage() {
                 </div>
               </div>
               
-              <button className="btn-primary w-full mt-10 text-center py-5 text-lg">
+              <Link href="/checkout" className="btn-primary w-full mt-10 text-center py-5 text-lg block">
                 Proceed to Checkout
-              </button>
+              </Link>
               
               <div className="mt-6 flex items-center justify-center space-x-4">
                 <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">VISA</div>

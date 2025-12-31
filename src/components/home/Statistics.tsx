@@ -1,10 +1,12 @@
 import { Coffee, Award, Users, Smile } from "lucide-react";
 
+import CountUp from "@/components/ui/CountUp";
+
 const stats = [
-  { label: "Coffee Branches", value: "100", icon: Coffee },
-  { label: "Number of Awards", value: "85", icon: Award },
-  { label: "Happy Customer", value: "10,567", icon: Users },
-  { label: "Staff", value: "900", icon: Smile },
+  { label: "Coffee Branches", value: 100, icon: Coffee },
+  { label: "Number of Awards", value: 85, icon: Award },
+  { label: "Happy Customer", value: 10567, icon: Users },
+  { label: "Staff", value: 900, icon: Smile },
 ];
 
 export default function Statistics() {
@@ -24,7 +26,15 @@ export default function Statistics() {
               <stat.icon className="h-12 w-12 text-primary" />
             </div>
             <div className="space-y-1">
-              <span className="block text-[30px] font-normal text-primary leading-tight font-josefin">{stat.value}</span>
+              <div className="block text-[30px] font-normal text-primary leading-tight font-josefin">
+                <CountUp 
+                  to={stat.value} 
+                  separator=","
+                  direction="up"
+                  duration={2}
+                  className="font-josefin" 
+                />
+              </div>
               <span className="block text-xs uppercase tracking-[0.2em] text-white/80 font-normal">{stat.label}</span>
             </div>
           </div>

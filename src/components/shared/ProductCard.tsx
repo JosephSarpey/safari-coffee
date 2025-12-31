@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
@@ -16,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
       className="group text-center space-y-4"
     >
       {/* Image */}
-      <div className="relative h-[200px] w-full overflow-hidden block">
+      <Link href={`/shop/${product.id}`} className="relative h-[200px] w-full overflow-hidden block">
         <Image 
           src={product.image || "/images/menu-1.jpg"} 
           alt={product.name} 
@@ -24,13 +25,15 @@ export default function ProductCard({ product }: { product: Product }) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="space-y-2 px-4 pb-4">
-        <h3 className="text-lg font-normal uppercase hover:text-[#c49b63] transition-colors cursor-pointer text-white">
-          {product.name}
-        </h3>
+        <Link href={`/shop/${product.id}`}>
+          <h3 className="text-lg font-normal uppercase hover:text-[#c49b63] transition-colors cursor-pointer text-white">
+            {product.name}
+          </h3>
+        </Link>
         <p className="text-gray-400 text-sm font-light line-clamp-2">
           {product.description}
         </p>

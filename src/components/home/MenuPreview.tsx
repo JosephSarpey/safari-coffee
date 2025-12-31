@@ -3,8 +3,8 @@ import ProductCard from "@/components/shared/ProductCard";
 import Link from "next/link";
 
 export default function MenuPreview() {
-  // Taking 4 products as featured
-  const featuredProducts = products.slice(0, 4);
+  // Taking 3 products as featured
+  const featuredProducts = products.slice(0, 3);
 
   return (
     <section className="section-padding relative overflow-hidden">
@@ -23,7 +23,7 @@ export default function MenuPreview() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

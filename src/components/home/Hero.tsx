@@ -86,14 +86,14 @@ export default function Hero() {
               </p>
 
               <div className="flex flex-wrap justify-center gap-6 pt-4">
-                <Link href="/menu" className="btn-primary">
+                <Link href="/shop" className="btn-primary">
                   Order Now
                 </Link>
                 <Link href="/menu" className="btn-white-outline">
                   View Menu
                 </Link>
               </div>
-            </motion.div>
+            </motion.div> 
           </AnimatePresence>
         </div>
       </div>

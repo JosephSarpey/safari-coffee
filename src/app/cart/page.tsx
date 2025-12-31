@@ -7,7 +7,7 @@ import PageHeader from "@/components/shared/PageHeader";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, totalPrice } = useCartStore();
+  const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCartStore();
 
   if (items.length === 0) {
     return (
@@ -35,6 +35,16 @@ export default function CartPage() {
         <div className="container lg:grid lg:grid-cols-3 lg:gap-16">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
+            <div className="flex justify-between items-end pb-4 border-b border-primary/20 mb-6">
+               <h3 className="text-xl font-bold uppercase tracking-widest text-white">Cart Items <span className="text-primary">({items.length})</span></h3>
+               <button 
+                  onClick={clearCart}
+                  className="text-red-500 hover:text-white text-xs uppercase font-bold tracking-widest flex items-center gap-2 transition-colors"
+                >
+                  <Trash2 className="h-4 w-4" /> Clear Cart
+               </button>
+            </div>
+
             <div className="hidden md:grid grid-cols-5 pb-4 border-b border-primary/20 text-xs uppercase tracking-widest font-bold text-gray-500">
               <div className="col-span-2">Product</div>
               <div className="text-center">Price</div>

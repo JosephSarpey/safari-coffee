@@ -59,7 +59,7 @@ export default function Navbar() {
             Safari
           </span>
           <span className="text-white/70 text-[10px] uppercase tracking-[0.4em] mt-1 leading-none">
-            Coffee
+            Roast
           </span>
         </Link>
 

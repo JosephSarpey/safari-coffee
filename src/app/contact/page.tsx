@@ -2,6 +2,7 @@
 
 import PageHeader from "@/components/shared/PageHeader";
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
+import ContactForm from "@/components/contact/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -59,35 +60,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-black p-12 md:p-16">
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <input 
-                    type="text" 
-                    placeholder="Your Name" 
-                    className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors" 
-                  />
-                  <input 
-                    type="email" 
-                    placeholder="Your Email" 
-                    className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors" 
-                  />
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="Subject" 
-                  className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors" 
-                />
-                <textarea 
-                  rows={5} 
-                  placeholder="Message" 
-                  className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors resize-none"
-                ></textarea>
-                <button type="submit" className="btn-primary w-full py-5">
-                  Send Message
-                </button>
-              </form>
-            </div>
+<ContactForm />
           </div>
         </div>
       </section>

@@ -15,7 +15,7 @@ export interface Product {
 export const products: Product[] = [
   {
     id: "gourmet-kenya",
-    name: "Safari Gourmet - Kenya",
+    name: "Safari Gourmet - Coffee",
     description: "100% Organic Beans with a fruity, floral, and wine-like profile. Single-origin excellence from the heart of Kenya.",
     price: 25.0,
     image: "/images/menu-1.jpg", // Needs placeholder update later
@@ -28,7 +28,7 @@ export const products: Product[] = [
   },
   {
     id: "artisan-kenya",
-    name: "Safari Artisan - Kenya",
+    name: "Safari Artisan - Coffee",
     description: "Crafted for the connoisseur, this artisan blend offers a complex profile of citrus and spice.",
     price: 28.0,
     image: "/images/menu-2.jpg",
@@ -41,7 +41,7 @@ export const products: Product[] = [
   },
   {
     id: "rich-brew-kenya",
-    name: "Safari Rich Brew - Kenya",
+    name: "Safari Rich Brew - Coffee",
     description: "A bold and acidic experience, perfect for those who love a full-bodied morning cup.",
     price: 22.0,
     image: "/images/menu-3.jpg",

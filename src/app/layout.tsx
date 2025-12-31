@@ -3,12 +3,41 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CookieConsent from "@/components/layout/CookieConsent";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Safari Coffee | Awaken the Explorer",
-  description: "Experience the best 100% organic single-origin Kenya coffee. Gourmet, Artisan, and Rich Brew roasts.",
+  title: {
+    default: "Safari Roast | Awaken the Explorer",
+    template: "%s | Safari Roast",
+  },
+  description: "Experience the best 100% organic single-origin Kenya coffee. Gourmet, Artisan, and Rich Brew roasts sourced directly from high-altitude farms.",
+  keywords: ["coffee", "kenya coffee", "organic coffee", "single origin", "safari roast", "specialty coffee"],
+  authors: [{ name: "Safari Roast Team" }],
+  creator: "Safari Roast",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://safaricoffee.com",
+    siteName: "Safari Roast",
+    title: "Safari Roast | Awaken the Explorer",
+    description: "Experience the best 100% organic single-origin Kenya coffee.",
+    images: [
+      {
+        url: "/images/safari_image_1.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Safari Roast Coffee",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Safari Roast | Awaken the Explorer",
+    description: "Experience the best 100% organic single-origin Kenya coffee.",
+    images: ["/images/safari_image_1.jpeg"],
+  },
 };
 
 export default function RootLayout({
@@ -22,6 +51,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

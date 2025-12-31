@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Coffee, MapPin, Phone, Mail, Instagram, Twitter, Facebook } from "lucide-react";
+import Newsletter from "./Newsletter";
 
 export default function Footer() {
   return (
@@ -17,6 +18,10 @@ export default function Footer() {
         <div className="absolute inset-0 bg-black/50 mix-blend-multiply" />
       </div>
 
+      <div className="relative z-10">
+        <Newsletter />
+      </div>
+
       <div className="relative z-10 container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-gray-400">
         {/* Brand */}
             <div className="space-y-6">
@@ -25,7 +30,7 @@ export default function Footer() {
                   Safari
                 </span>
                 <span className="text-white/70 text-[10px] uppercase tracking-[0.4em] mt-1 leading-none">
-                  Coffee
+                  Roast
                 </span>
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -79,7 +84,12 @@ export default function Footer() {
         </div>
       </div>
       <div className="relative z-10 container mt-16 pt-8 border-t border-primary/5 text-center text-xs">
-        <p>&copy; {new Date().getFullYear()} Safari Coffee. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Safari Roast. All rights reserved.</p>
+        <div className="mt-2 space-x-4">
+          <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          <span className="text-gray-600">|</span>
+          <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+        </div>
       </div>
     </footer>
   );

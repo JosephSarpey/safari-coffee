@@ -86,8 +86,8 @@ export default function Hero() {
               </p>
 
               <div className="flex flex-wrap justify-center gap-6 pt-4">
-                <Link href="/shop" className="btn-primary">
-                  Order Now
+                <Link href="/join" className="btn-primary">
+                  Join the Expedition
                 </Link>
                 <Link href="/menu" className="btn-white-outline">
                   View Menu

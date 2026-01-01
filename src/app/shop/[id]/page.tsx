@@ -9,6 +9,8 @@ import { useCartStore } from "@/store/cart-store";
 import { Minus, Plus, ShoppingCart, Star } from "lucide-react";
 import ProductCard from "@/components/shared/ProductCard";
 
+import { toast } from "sonner";
+
 export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
@@ -23,21 +25,10 @@ export default function ProductDetailPage() {
   const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
 
   const handleAddToCart = () => {
-    // Add item multiple times based on quantity
-    // Note: The store's addItem currently adds 1. We might want to update the store to accept quantity,
-    // but for now we can just call it in a loop or stick to adding 1 (or update logic later).
-    // Given the store implementation: 
-    // addItem: (product) => { ... } which adds 1.
-    // I will call it 'quantity' times for now, or better yet, I should probably update the store.
-    // But to minimize scope creep, I'll just adhere to the existing store contract or loop.
-    // Actually, looping is safer than modifying store without seeing it fully (though I saw it earlier).
-    // Wait, I saw the store: `addItem` handles adding 1 to existing or creating new with quantity 1.
-    // I can manually update quantity after adding, but that's messy.
-    // Let's just add 1 for now or better, imply that the user adds 1 at a time, 
-    // OR, I can use a loop.
     for (let i = 0; i < quantity; i++) {
         addItem(product);
     }
+    toast.success(`${product.name} added to cart`);
   };
 
   return (

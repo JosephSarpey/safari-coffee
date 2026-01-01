@@ -5,9 +5,15 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
 import { useCartStore } from "@/store/cart-store";
+import { toast } from "sonner";
 
 export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    addItem(product);
+    toast.success(`${product.name} added to cart`);
+  };
 
   return (
     <motion.div 
@@ -41,7 +47,7 @@ export default function ProductCard({ product }: { product: Product }) {
           ${product.price.toFixed(2)}
         </p>
         <button 
-          onClick={() => addItem(product)}
+          onClick={handleAddToCart}
           className="btn-white-outline py-2 px-4 text-xs mt-2"
         >
           Add to Cart

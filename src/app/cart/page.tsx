@@ -5,6 +5,17 @@ import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import PageHeader from "@/components/shared/PageHeader";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCartStore();
@@ -37,12 +48,27 @@ export default function CartPage() {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex justify-between items-end pb-4 border-b border-primary/20 mb-6">
                <h3 className="text-xl font-bold uppercase tracking-widest text-white">Cart Items <span className="text-primary">({items.length})</span></h3>
-               <button 
-                  onClick={clearCart}
-                  className="text-red-500 hover:text-white text-xs uppercase font-bold tracking-widest flex items-center gap-2 transition-colors"
-                >
-                  <Trash2 className="h-4 w-4" /> Clear Cart
-               </button>
+               <AlertDialog>
+                 <AlertDialogTrigger asChild>
+                   <button 
+                      className="text-red-500 hover:text-white text-xs uppercase font-bold tracking-widest flex items-center gap-2 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" /> Clear Cart
+                   </button>
+                 </AlertDialogTrigger>
+                 <AlertDialogContent className="bg-zinc-900 border-primary/20 text-white">
+                   <AlertDialogHeader>
+                     <AlertDialogTitle>Clear Cart?</AlertDialogTitle>
+                     <AlertDialogDescription className="text-gray-400">
+                       Are you sure you want to remove all items from your cart? This action cannot be undone.
+                     </AlertDialogDescription>
+                   </AlertDialogHeader>
+                   <AlertDialogFooter>
+                     <AlertDialogCancel className="bg-transparent text-white border-primary/20 hover:bg-white/10 hover:text-white">Cancel</AlertDialogCancel>
+                     <AlertDialogAction onClick={clearCart} className="bg-red-500 hover:bg-red-600 text-white border-none">Clear Cart</AlertDialogAction>
+                   </AlertDialogFooter>
+                 </AlertDialogContent>
+               </AlertDialog>
             </div>
 
             <div className="hidden md:grid grid-cols-5 pb-4 border-b border-primary/20 text-xs uppercase tracking-widest font-bold text-gray-500">
@@ -62,12 +88,27 @@ export default function CartPage() {
                   <div className="space-y-1">
                     <h3 className="font-bold text-white leading-tight">{item.name}</h3>
                     <p className="text-xs text-primary uppercase">{item.category}</p>
-                    <button 
-                      onClick={() => removeItem(item.id)}
-                      className="text-red-500 hover:text-red-400 text-xs flex items-center gap-1 pt-2"
-                    >
-                      <Trash2 className="h-3 w-3" /> Remove
-                    </button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button 
+                          className="text-red-500 hover:text-red-400 text-xs flex items-center gap-1 pt-2"
+                        >
+                          <Trash2 className="h-3 w-3" /> Remove
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-zinc-900 border-primary/20 text-white">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Remove Item?</AlertDialogTitle>
+                          <AlertDialogDescription className="text-gray-400">
+                            Are you sure you want to remove {item.name} from your cart?
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel className="bg-transparent text-white border-primary/20 hover:bg-white/10 hover:text-white">Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => removeItem(item.id)} className="bg-red-500 hover:bg-red-600 text-white border-none">Remove</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
 

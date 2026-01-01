@@ -3,6 +3,7 @@
 import PageHeader from "@/components/shared/PageHeader";
 import { useCartStore } from "@/store/cart-store";
 import { useState } from "react";
+import { countries } from "@/data/countries";
 
 export default function CheckoutPage() {
   const { items, totalPrice } = useCartStore();
@@ -39,11 +40,13 @@ export default function CheckoutPage() {
 
                 <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Country / Region</label>
-                    <select className="w-full bg-transparent border border-gray-800 p-4 text-white focus:border-primary outline-none transition-colors bg-zinc-900">
-                        <option>United States (US)</option>
-                        <option>United Kingdom (UK)</option>
-                        <option>Canada</option>
-                        <option>Kenya</option>
+                    <select 
+                      className="w-full bg-transparent border border-gray-800 p-4 text-white focus:border-primary outline-none transition-colors bg-zinc-900" 
+                      defaultValue="United States of America"
+                    >
+                        {countries.map((country) => (
+                             <option key={country} value={country}>{country}</option>
+                        ))}
                     </select>
                 </div>
 

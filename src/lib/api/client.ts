@@ -17,7 +17,7 @@ export class ApiError extends Error {
 }
 
 export async function fetchClient<T = any>(endpoint: string, options: FetchOptions = {}): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_BASE_URL}/api${endpoint}`;
   
   const defaultHeaders = {
     'Content-Type': 'application/json',

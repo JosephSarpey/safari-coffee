@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { useSearchParams } from 'next/navigation';
+import { authApi } from "@/lib/api/auth";
 
 function ResetPasswordForm() {
     const searchParams = useSearchParams();
@@ -25,22 +26,17 @@ function ResetPasswordForm() {
             setError('Passwords do not match');
             return;
         }
+
+        if (!token) {
+            setError('Missing reset token');
+            return;
+        }
         
         setIsLoading(true);
         setError('');
 
         try {
-            const response = await fetch('http://localhost:5000/auth/reset-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token, password }),
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Failed to reset password');
-            }
-
+            await authApi.resetPassword({ token, password });
             setSubmitted(true);
         } catch (err: any) {
             setError(err.message);

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
+import { authApi } from "@/lib/api/auth";
 
 export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,19 +21,12 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
-        const response = await fetch('http://localhost:5000/auth/forgot-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        });
+        const data = await authApi.forgotPassword({ email });
 
-        if (!response.ok) {
-           throw new Error('Failed to request password reset');
-        }
-
-        const data = await response.json();
         // Ideally we don't show the token, but for simulation we might need it if we don't have email sending
-        console.log('Reset token:', data.token); 
+        if (data && data.token) {
+             console.log('Reset token:', data.token);
+        }
         
         setSubmitted(true);
     } catch (err: any) {

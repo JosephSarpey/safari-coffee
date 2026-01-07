@@ -36,4 +36,18 @@ export const authApi = {
       method: 'POST',
     });
   },
+
+  forgotPassword: async (data: { email: string }) => {
+    return fetchClient('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  resetPassword: async (data: { token: string; password: string }) => {
+    return fetchClient('/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+  },
 };

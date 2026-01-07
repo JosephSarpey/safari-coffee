@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AboutPreview() {
   return (
     <section className="flex flex-col md:flex-row bg-black">
@@ -15,14 +17,18 @@ export default function AboutPreview() {
             <h2 className="text-4xl font-bold uppercase tracking-widest text-white">Our Story</h2>
           </header>
           
-          <div className="space-y-6 text-gray-400 leading-relaxed text-base">
             <p>
-              On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.
+              Born from the fire of ancient volcanoes, Safari Roast captures the untamed spirit of Kenya. Our beans thrive in the mineral-rich soils of the Great Rift Valley, absorbing the raw vitality of the earth.
             </p>
             <p>
-              But nothing could copy her. Little Blind Text didn’t listen, but it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and pushed her into their agency, where they abused her for their.
+              Every cup offers a journey—a bold, complex flavor profile that echoes the passion of its origins. Experience the adventure of coffee brewed from nature's most powerful elements.
             </p>
-          </div>
+            
+            <div className="mt-8">
+              <Link href="/about" className="inline-block px-8 py-3 border border-primary text-primary uppercase tracking-[0.2em] text-sm hover:bg-primary hover:text-white transition-all duration-300">
+                More About Us
+              </Link>
+            </div>
         </div>
       </div>
     </section>

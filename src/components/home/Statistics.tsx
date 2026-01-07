@@ -15,7 +15,7 @@ export default function Statistics() {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/bg_2.jpg')" }}
+        style={{ backgroundImage: "url('/images/hero_manufacturing.jpg')" }}
       />
       <div className="absolute inset-0 bg-black/50" />
 

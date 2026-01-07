@@ -30,7 +30,7 @@ export default function BulkPurchasePage() {
                     <Coffee className="h-6 w-6" />
                     <span className="text-sm uppercase font-black tracking-widest">Premium Quality</span>
                   </div>
-                  <p className="text-sm text-gray-500">Sourced from the finest farms and roasted to perfection for consistent excellence.</p>
+                  <p className="text-sm text-gray-500">Sourced from the nutrient-rich volcanic slopes of Kenya's finest farms, ensuring a robust and distinct flavor profile.</p>
                 </div>
                 
                 <div className="space-y-4">

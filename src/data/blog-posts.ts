@@ -13,45 +13,45 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: "The Art of Coffee Tasting",
+    title: "Precision Roasting Science",
     date: "Sept 10, 2024",
-    author: "Admin",
+    author: "Head Roaster",
     comments: 3,
-    image: "/images/image_1.jpg",
-    excerpt: "Discover the subtle nuances of flavor in every cup. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+    image: "/images/gallery_roasting.jpg",
+    excerpt: "Understanding the Maillard reaction and heat transfer dynamics in our industrial drum roasters.",
     content: `
-      <p>Coffee tasting, or cupping, is the practice of observing the tastes and aromas of brewed coffee. It is a professional practice but can be done informally by anyone or by professionals known as "Q Graders". A standard coffee cupping procedure involves deeply sniffing the coffee, then loudly slurping the coffee so it spreads to the back of the tongue.</p>
-      <p>The coffee taster attempts to measure aspects of the coffee's taste, specifically the body (the texture or mouthfeel, such as oiliness), sweetness, acidity (a sharp and tangy feeling, like when biting into an orange), flavor (the characters in the cup), and aftertaste. Since coffee beans embody telltale flavors from the region where they were grown, cuppers may attempt to identify the coffee's origin.</p>
+      <p>Modern coffee roasting is as much science as it is art. Our state-of-the-art drum roasters allow us to control conductive and convective heat transfer with pinpoint accuracy.</p>
+      <p>By manipulating the rate of rise (RoR) and airflow, we can precisely target specific flavor compounds. This ensures that every batch of our volcanic bean harvest reaches its full potential, highlighting the complex acidity and body characteristic of Kenyan arabica.</p>
     `,
-    tags: ["Coffee", "Tasting", "Brewing"]
+    tags: ["Roasting", "Science", "Process"]
   },
   {
     id: 2,
-    title: "The Origins of our Beans",
+    title: "Sourcing from the Source",
     date: "Sept 12, 2024",
-    author: "Admin",
+    author: "Green Buyer",
     comments: 5,
-    image: "/images/image_2.jpg",
-    excerpt: "Journey to the heart of Kenya where our beans are sourced. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+    image: "/images/hero_kilimanjaro.jpg",
+    excerpt: "Direct trade relationships with farmers in the volcanic highlands ensure quality and sustainability.",
     content: `
-      <p>Our coffee beans are sourced directly from the high-altitude regions of Kenya, known for their rich volcanic soil and perfect climate for growing coffee. The SL-28 and SL-34 varietals that we use are famous for their intense berry flavors and wine-like acidity.</p>
-      <p>We work directly with local farmers to ensure fair trade practices and sustainable farming methods. Each batch is hand-picked at the peak of ripeness to ensure the highest quality cup for our customers.</p>
+      <p>Our sourcing philosophy is simple: go to the source. We work directly with cooperatives in the high-altitude volcanic regions of the Great Rift Valley.</p>
+      <p>The mineral-rich soil provides the perfect nutrients for dense, flavorful beans. By cutting out intermediaries, we ensure fair compensation for farmers and secure the highest grade AA lots for our manufacturing facility.</p>
     `,
-    tags: ["Kenya", "Sourcing", "Origins"]
+    tags: ["Sourcing", "Volcanic", "Direct Trade"]
   },
   {
     id: 3,
-    title: "Brewing the Perfect Cup",
+    title: "Quality Control Protocols",
     date: "Sept 15, 2024",
-    author: "Admin",
+    author: "Q-Grader",
     comments: 8,
-    image: "/images/image_3.jpg",
-    excerpt: "Tips and tricks for the home barista. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
+    image: "/images/q-control.jpg",
+    excerpt: "Rigorous defect analysis and cupping sessions define our manufacturing standard.",
     content: `
-      <p>Brewing the perfect cup of coffee is an art form that requires attention to detail. From the grind size to the water temperature, every variable affects the final taste.</p>
-      <p>For a French Press, use a coarse grind and steep for 4 minutes. For a V60 pour-over, use a medium-fine grind and a steady pour. Always use filtered water heated to between 195°F and 205°F for optimal extraction.</p>
+      <p>Quality control begins before the coffee even reaches our roastery. We perform moisture analysis and screen sizing on all green coffee samples.</p>
+      <p>Our certified Q-Graders cup every batch to ensure it meets our strict sensory profile standards. Only coffees that score 85+ points make it into our production line, guaranteeing a premium experience for your customers.</p>
     `,
-    tags: ["Brewing", "Tips", "Barista"]
+    tags: ["Quality Control", "Cupping", "Standards"]
   },
   {
     id: 4,
@@ -59,7 +59,7 @@ export const blogPosts: BlogPost[] = [
     date: "Sept 18, 2024",
     author: "Admin",
     comments: 2,
-    image: "/images/image_4.jpg",
+    image: "/images/coffee_benefits.jpg",
     excerpt: "Why your morning cup is good for you. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
     content: `
       <p>Coffee is more than just a morning pick-me-up. Recent studies have shown that coffee is packed with antioxidants and essential nutrients.</p>
@@ -73,7 +73,7 @@ export const blogPosts: BlogPost[] = [
     date: "Sept 20, 2024",
     author: "Admin",
     comments: 6,
-    image: "/images/image_1.jpg", // Reusing image due to limited assets
+    image: "/images/hero_manufacturing.jpg",
     excerpt: "From green bean to brown delight. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
     content: `
       <p>Roasting is where the magic happens. Green coffee beans are heated to high temperatures, causing chemical changes that unlock the flavors and aromas locked inside.</p>
@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
     date: "Sept 25, 2024",
     author: "Admin",
     comments: 4,
-    image: "/images/image_2.jpg",
+    image: "/images/gallery_cupping.jpg",
     excerpt: "More than just a drink, it's a way of life. A small river named Duden flows by their place and supplies it with the necessary regelialia.",
     content: `
       <p>In Kenya, "Kahawa" (coffee) is a staple of daily life. It is often enjoyed in social gatherings and is a symbol of hospitality.</p>

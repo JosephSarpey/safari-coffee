@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 
 const images = [
-  "/images/gallery-1.jpg",
-  "/images/gallery-2.jpg",
-  "/images/gallery-3.jpg",
-  "/images/gallery-4.jpg",
+  "/images/gallery_roasting.jpg",
+  "/images/gallery_sacks.jpg",
+  "/images/gallery_cupping.jpg",
+  "/images/gallery_green_beans.jpg",
 ];
 
 export default function GallerySection() {

@@ -93,7 +93,7 @@ export default function BulkPurchaseForm() {
              <input 
               required
               type="text" 
-              placeholder="Address" 
+              placeholder="Full Address Details" 
               className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
               disabled={isSubmitting} 
             />
@@ -110,13 +110,28 @@ export default function BulkPurchaseForm() {
             </select>
            </div>
 
-          <input 
-            required
-            type="text" 
-            placeholder="Estimated Quantity (e.g. 10kg, 50 bags)" 
-            className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50" 
-            disabled={isSubmitting}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <select 
+              required
+              defaultValue=""
+              className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-gray-400 outline-none focus:border-primary transition-colors disabled:opacity-50 appearance-none"
+              disabled={isSubmitting}
+            >
+                <option value="" disabled>Service For</option>
+                <option value="home">Home</option>
+                <option value="business">Business</option>
+                <option value="restaurant-cafe">Restaurant/Cafe</option>
+                <option value="other">Other</option>
+            </select>
+
+            <input 
+              required
+              type="text" 
+              placeholder="Estimated Quantity (e.g. 10kg, 50 bags)" 
+              className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50" 
+              disabled={isSubmitting}
+            />
+          </div>
 
           <textarea 
             rows={4} 

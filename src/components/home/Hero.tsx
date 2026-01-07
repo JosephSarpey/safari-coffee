@@ -7,27 +7,27 @@ import { motion, AnimatePresence } from "framer-motion";
 const slides = [
   {
     id: 1,
-    image: "/images/bg_1.jpg",
-    subtitle: "Welcome",
-    title: "The Best Coffee Testing Experience",
-    highlight: "Testing Experience",
-    description: "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+    image: "/images/hero_kilimanjaro.jpg",
+    subtitle: "The Source",
+    title: "Forged in Volcanic Fire",
+    highlight: "Volcanic Fire",
+    description: "Grown in the nutrient-rich ash of the Great Rift Valley, our beans absorb the earth's raw power."
   },
   {
     id: 2,
-    image: "/images/bg_2.jpg",
-    subtitle: "Welcome",
-    title: "Amazing Taste & Beautiful Place",
-    highlight: "Beautiful Place",
-    description: "Experience the perfect blend of ambiance and flavor, where every cup tells a story of tradition and quality."
+    image: "/images/hero_manufacturing.jpg",
+    subtitle: "The Process",
+    title: "Mastery in Manufacturing",
+    highlight: "Manufacturing",
+    description: "From cherry selection to artisan roasting, we control every step to ensure distinct, explosive flavor profiles."
   },
   {
     id: 3,
-    image: "/images/bg_3.jpg",
-    subtitle: "Welcome",
-    title: "Creamy Hot and Ready to Serve",
-    highlight: "Ready to Serve",
-    description: "Freshly brewed artisan coffee prepared by expert baristas, delivered hot and creamy to your table."
+    image: "/images/hero_farmer.jpg",
+    subtitle: "The Promise",
+    title: "Taste the Spirit of Kenya",
+    highlight: "Spirit of Kenya",
+    description: "Sharing the bold, untamed soul of African coffee with the world—directly from our home to yours."
   }
 ];
 
@@ -55,7 +55,7 @@ export default function Hero() {
             className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
             style={{ backgroundImage: `url('${slide.image}')` }}
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/70" />
         </div>
       ))}
 

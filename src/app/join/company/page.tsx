@@ -7,19 +7,49 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, ArrowRight } from "lucide-react";
+import { authApi } from "@/lib/api/auth";
+import { countries } from "@/lib/countries";
 
 export default function CompanyJoinPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+      companyName: '',
+      contactName: '',
+      email: '',
+      phoneCode: '',
+      phone: '',
+      country: '',
+      password: ''
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Handle success
-      console.log("Company signup submitted");
-    }, 2000);
+    setError('');
+
+    try {
+        await authApi.signup({
+            name: formData.contactName,
+            email: formData.email,
+            password: formData.password,
+            companyName: formData.companyName,
+            country: formData.country,
+            phoneNumber: `${formData.phoneCode} ${formData.phone}`,
+            role: 'COMPANY'
+        });
+
+        
+        window.location.href = '/login?registered=true';
+    } catch (err: any) {
+        setError(err.message);
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   return (
@@ -47,6 +77,12 @@ export default function CompanyJoinPage() {
           </p>
         </div>
 
+        {error && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm text-center">
+                {error}
+            </div>
+        )}
+
         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2 md:col-span-2">
             <Label htmlFor="companyName" className="text-xs uppercase tracking-widest text-gray-300">
@@ -56,6 +92,8 @@ export default function CompanyJoinPage() {
               id="companyName"
               placeholder="Safari Enterprises Ltd."
               required
+              value={formData.companyName}
+              onChange={handleChange}
               className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
             />
           </div>
@@ -68,6 +106,8 @@ export default function CompanyJoinPage() {
               id="contactName"
               placeholder="Jane Smith"
               required
+              value={formData.contactName}
+              onChange={handleChange}
               className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
             />
           </div>
@@ -81,32 +121,58 @@ export default function CompanyJoinPage() {
               type="email"
               placeholder="partnerships@company.com"
               required
+              value={formData.email}
+              onChange={handleChange}
               className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="taxId" className="text-xs uppercase tracking-widest text-gray-300">
-              Tax ID / VAT Number
+            <Label htmlFor="country" className="text-xs uppercase tracking-widest text-gray-300">
+              Country
             </Label>
-            <Input
-              id="taxId"
-              placeholder="Optional"
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
+             <select
+              id="country"
+              required
+              value={formData.country}
+              onChange={(e) => {
+                  const country = countries.find(c => c.name === e.target.value);
+                  setFormData({ ...formData, country: e.target.value, phoneCode: country?.phone || '' });
+              }}
+              className="w-full bg-black/50 border border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 rounded-md px-3 appearance-none"
+            >
+                <option value="" disabled>Select Country</option>
+                {countries.map((c) => (
+                    <option key={c.code} value={c.name} className="bg-black text-white">{c.name}</option>
+                ))}
+            </select>
           </div>
 
-           <div className="space-y-2">
+            <div className="space-y-2">
             <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-gray-300">
               Phone Number
             </Label>
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="+1 (555) 000-0000"
-              required
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
+            <div className="flex gap-2">
+                 <select
+                    value={formData.phoneCode}
+                    onChange={(e) => setFormData({ ...formData, phoneCode: e.target.value })}
+                    className="w-24 bg-black/50 border border-white/10 text-white focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 rounded-md px-2 appearance-none"
+                >
+                     <option value="" disabled>Code</option>
+                     {countries.map((c) => (
+                        <option key={c.code} value={c.phone} className="bg-black text-white">{c.code} ({c.phone})</option>
+                    ))}
+                </select>
+                <Input
+                id="phone"
+                type="tel"
+                placeholder="123 456 7890"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 flex-1"
+                />
+            </div>
           </div>
 
           <div className="space-y-2 md:col-span-2">
@@ -118,6 +184,8 @@ export default function CompanyJoinPage() {
               type="password"
               placeholder="Create a strong password"
               required
+              value={formData.password}
+              onChange={handleChange}
               className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
             />
           </div>

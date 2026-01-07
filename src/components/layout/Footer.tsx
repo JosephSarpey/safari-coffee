@@ -1,9 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Coffee, MapPin, Phone, Mail, Instagram, Twitter, Facebook } from "lucide-react";
 import Newsletter from "./Newsletter";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/account")) return null;
+
   return (
     <footer className="relative bg-black border-t border-primary/10 pt-16 pb-8">
       {/* Background Image */}

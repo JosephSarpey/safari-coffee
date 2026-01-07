@@ -20,7 +20,7 @@ export default function BlogPreview() {
                     viewport={{ once: true }}
                     className="font-great-vibes text-primary text-3xl"
                 >
-                    Discover
+                    Knowledge
                 </motion.span>
                 <motion.h2 
                     initial={{ opacity: 0, y: 20 }}
@@ -29,7 +29,7 @@ export default function BlogPreview() {
                     transition={{ delay: 0.1 }}
                     className="text-4xl md:text-5xl font-black uppercase tracking-widest text-white"
                 >
-                    Recent Blog
+                    Industry Insights
                 </motion.h2>
                 <motion.p 
                     initial={{ opacity: 0, y: 20 }}

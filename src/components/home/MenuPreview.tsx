@@ -16,10 +16,10 @@ export default function MenuPreview() {
       
       <div className="container relative z-10 space-y-16">
         <header className="text-center space-y-4 max-w-2xl mx-auto">
-          <span className="font-great-vibes text-primary text-[30px] block">Discover</span>
-          <h2 className="text-4xl md:text-5xl font-normal uppercase tracking-widest text-white">Best Coffee Sellers</h2>
+          <span className="font-great-vibes text-primary text-[30px] block">Our Collection</span>
+          <h2 className="text-4xl md:text-5xl font-normal uppercase tracking-widest text-white">Signature Roast Series</h2>
           <p className="text-gray-400 font-light">
-            Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+            Sourced directly from our partner farms in Kenya, each roast is meticulously crafted to highlight its unique volcanic origin character.
           </p>
         </header>
 
@@ -30,8 +30,8 @@ export default function MenuPreview() {
         </div>
 
         <div className="text-center">
-          <Link href="/menu" className="btn-primary inline-block">
-            View Full Menu
+          <Link href="/shop" className="btn-primary inline-block">
+            View Full Catalog
           </Link>
         </div>
       </div>

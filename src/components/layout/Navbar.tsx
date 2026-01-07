@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
+import { useAuthStore } from "@/store/auth-store";
+import { authApi } from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
@@ -41,8 +44,25 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const activeUser = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const logout = useAuthStore((state) => state.logout);
   const totalItems = useCartStore((state) => state.totalItems());
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+        await authApi.logout();
+        logout();
+        router.push('/login');
+    } catch (error) {
+        console.error("Logout failed", error);
+        // Force logout on client side even if server fails
+        logout();
+        router.push('/login');
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -53,11 +73,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (pathname.startsWith("/account")) return null;
+
   return (
     <nav
       className={cn(
         "font-semibold fixed w-full z-50 transition-all duration-300 md:px-12 py-4",
-        scrolled || pathname.includes("/join") || pathname.includes("/login") || pathname.includes("/signup") || pathname.includes("/account") ? "bg-black/90 py-2 shadow-lg" : "bg-transparent"
+        scrolled || pathname.includes("/join") || pathname.includes("/login") || pathname.includes("/signup") ? "bg-black/90 py-2 shadow-lg" : "bg-transparent"
       )}
     >
       <div className="container relative flex items-center justify-between h-20 md:h-24">
@@ -117,25 +139,46 @@ export default function Navbar() {
 
         {/* Desktop Right Actions (Auth & Cart) */}
         <div className="hidden lg:flex items-center space-x-8">
-           {/* Join Us Link */}
+           {/* Join Us Link / Auth State */}
            {!pathname.includes("/join") && !pathname.includes("/signup") && !pathname.includes("/login") && (
-               <div className="flex items-center border border-white/20 rounded-full overflow-hidden transition-colors hover:border-primary/50 group">
-                 <Link
-                   href="/login"
-                   className="text-white hover:text-primary hover:bg-white/5 uppercase text-xs tracking-widest transition-colors px-4 py-2 border-r border-white/20"
-                 >
-                   LogIn
-                 </Link>
-                 <Link
-                  href="/join"
-                   className={cn(
-                      "text-white hover:text-primary hover:bg-white/5 uppercase text-xs tracking-widest transition-colors px-4 py-2",
-                      pathname === "/join" && "text-primary"
-                  )}
-                 >
-                   Join Us
-                 </Link>
-               </div>
+               isAuthenticated ? (
+                   <div className="flex items-center gap-4">
+                       <Link 
+                            href={activeUser?.role === 'COMPANY' ? '/account/company' : '/account/user'}
+                            className="flex items-center gap-2 text-white hover:text-primary transition-colors"
+                       >
+                           <User className="h-5 w-5" />
+                           <span className="uppercase text-xs tracking-widest hidden xl:block">
+                                {activeUser?.name?.split(' ')[0] || 'Account'}
+                           </span>
+                       </Link>
+                       <button
+                           onClick={handleLogout}
+                           className="text-white hover:text-red-500 transition-colors"
+                           title="Sign Out"
+                       >
+                           <LogOut className="h-5 w-5" />
+                       </button>
+                   </div>
+               ) : (
+                <div className="flex items-center border border-white/20 rounded-full overflow-hidden transition-colors hover:border-primary/50 group">
+                  <Link
+                    href="/login"
+                    className="text-white hover:text-primary hover:bg-white/5 uppercase text-xs tracking-widest transition-colors px-4 py-2 border-r border-white/20"
+                  >
+                    LogIn
+                  </Link>
+                  <Link
+                   href="/join"
+                    className={cn(
+                       "text-white hover:text-primary hover:bg-white/5 uppercase text-xs tracking-widest transition-colors px-4 py-2",
+                       pathname === "/join" && "text-primary"
+                   )}
+                  >
+                    Join Us
+                  </Link>
+                </div>
+               )
            )}
 
           <Link href="/cart" className="relative group p-2">
@@ -205,25 +248,53 @@ export default function Navbar() {
             </div>
           ))}
 
+          
           {/* Mobile Auth Links */}
-          <div className="flex flex-row items-center justify-center gap-0 mt-4 w-full pr-12">
-            <div className="flex items-center w-full max-w-[200px] border border-white/20 rounded-full overflow-hidden">
-                <Link
-                    href="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center text-white hover:text-primary hover:bg-white/5 uppercase text-sm tracking-widest font-bold py-3 border-r border-white/20 transition-all"
-                >
-                    LogIn
-                </Link>
-                <Link
-                    href="/join"
-                    onClick={() => setIsOpen(false)}
-                    className="flex-1 text-center text-primary hover:bg-white/5 hover:text-white uppercase text-sm tracking-widest font-bold py-3 transition-all"
-                >
-                    Join Us
-                </Link>
-            </div>
-          </div>
+          {!pathname.includes("/join") && !pathname.includes("/login") && !pathname.includes("/signup") && (
+              isAuthenticated ? (
+                  <div className="flex flex-col items-start gap-4 mt-8 pl-0 border-t border-white/10 pt-8 w-full">
+                       <Link 
+                            href={activeUser?.role === 'COMPANY' ? '/account/company' : '/account/user'}
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-2 text-white hover:text-primary transition-colors"
+                       >
+                           <User className="h-6 w-6" />
+                           <span className="uppercase text-lg tracking-widest font-bold">
+                                My Account
+                           </span>
+                       </Link>
+                       <button
+                           onClick={() => {
+                               handleLogout();
+                               setIsOpen(false);
+                           }}
+                           className="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors uppercase text-sm tracking-widest"
+                       >
+                           <LogOut className="h-5 w-5" />
+                           Sign Out
+                       </button>
+                  </div>
+              ) : (
+                <div className="flex flex-row items-center justify-center gap-0 mt-4 w-full pr-12">
+                    <div className="flex items-center w-full max-w-[200px] border border-white/20 rounded-full overflow-hidden">
+                        <Link
+                            href="/login"
+                            onClick={() => setIsOpen(false)}
+                            className="flex-1 text-center text-white hover:text-primary hover:bg-white/5 uppercase text-sm tracking-widest font-bold py-3 border-r border-white/20 transition-all"
+                        >
+                            LogIn
+                        </Link>
+                        <Link
+                            href="/join"
+                            onClick={() => setIsOpen(false)}
+                            className="flex-1 text-center text-primary hover:bg-white/5 hover:text-white uppercase text-sm tracking-widest font-bold py-3 transition-all"
+                        >
+                            Join Us
+                        </Link>
+                    </div>
+                </div>
+              )
+          )}
 
         </div>
       )}

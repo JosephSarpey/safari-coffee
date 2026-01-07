@@ -57,10 +57,13 @@ export default function LoginPage() {
 
     try {
         const data = await authApi.login(formData);
-        const { user } = data;
+        const { user, access_token } = data;
 
         // Store user info (keep user info for UI if needed, but no token)
         localStorage.setItem('user', JSON.stringify(user));
+        if (access_token) {
+            localStorage.setItem('access_token', access_token);
+        }
 
         // Update global auth state
         useAuthStore.getState().login(user);

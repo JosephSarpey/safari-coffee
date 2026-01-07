@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { User, Mail, MapPin, Package, Clock, CreditCard, Loader2, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { userApi, UserProfile } from "@/lib/api/user";
 
 // Mock orders can stay for now until order API is ready
@@ -37,7 +38,17 @@ export default function UserAccountPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const router = useRouter();
+
   useEffect(() => {
+    if (token) {
+        localStorage.setItem('access_token', token);
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+    }
+
     const loadProfile = async () => {
       try {
         const data = await userApi.getProfile();
@@ -51,7 +62,7 @@ export default function UserAccountPage() {
     };
 
     loadProfile();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (

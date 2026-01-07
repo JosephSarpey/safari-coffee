@@ -32,6 +32,13 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
     },
   };
 
+  if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+          (config.headers as any)['Authorization'] = `Bearer ${token}`;
+      }
+  }
+
   try {
     const response = await fetch(url, config);
     const data = await response.json();

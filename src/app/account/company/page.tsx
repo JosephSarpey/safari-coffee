@@ -4,7 +4,8 @@ import { AccountSidebar } from "@/components/account/Sidebar";
 import { Building2, Mail, MapPin, Package, FileText, Settings, Users, Loader2, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { userApi, UserProfile } from "@/lib/api/user";
 
 // Mock bulk orders can stay until backend is integrated
@@ -32,11 +33,20 @@ const mockBulkOrders = [
   },
 ];
 
-export default function CompanyAccountPage() {
+function CompanyAccountPageContent() {
   const [company, setCompany] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const router = useRouter();
 
   useEffect(() => {
+    if (token) {
+        localStorage.setItem('access_token', token);
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+    }
+
     const loadProfile = async () => {
       try {
         const data = await userApi.getProfile();
@@ -50,7 +60,7 @@ export default function CompanyAccountPage() {
     };
 
     loadProfile();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (
@@ -209,4 +219,12 @@ export default function CompanyAccountPage() {
       </div>
     </div>
   );
+}
+
+export default function CompanyAccountPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="w-8 h-8 text-primary animate-spin" /></div>}>
+            <CompanyAccountPageContent />
+        </Suspense>
+    );
 }

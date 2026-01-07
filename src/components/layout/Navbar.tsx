@@ -6,6 +6,7 @@ import { ShoppingCart, Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
 import { useAuthStore } from "@/store/auth-store";
 import { authApi } from "@/lib/api/auth";
+import { userApi } from "@/lib/api/user";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -70,6 +71,23 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
+
+    // Sync auth state
+    const checkAuth = async () => {
+        try {
+            const user = await userApi.getProfile();
+            useAuthStore.getState().login(user);
+        } catch (error) {
+            // Only logout if we get a 401/403, or just rely on the API failure.
+            // If getProfile fails, it means we probably aren't logged in with a valid cookie.
+            // But we shouldn't force logout if it's just a network error? 
+            // For now, if we can't get profile, assume not authenticated for UI purposes if cookies are missing.
+             // We won't call logout() explicitly here to avoid clearing state on transient errors, 
+             // but strictly speaking if the cookie is gone, the next action will fail anyway.
+        }
+    };
+    checkAuth();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

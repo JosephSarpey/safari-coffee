@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { userApi, UserProfile } from "@/lib/api/user";
 import { authApi } from "@/lib/api/auth";
+import { useAuthStore } from "@/store/auth-store";
 
 export function AccountNavbar() {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -20,6 +21,7 @@ export function AccountNavbar() {
         // Let's just fetch from API to be consistent with HTTP-only flow.
         const data = await userApi.getProfile();
         setUser(data);
+        useAuthStore.getState().login(data); // Sync global store
       } catch (error) {
         console.error("Failed to load profile in navbar", error);
         // If profile fails, maybe token is invalid, but let the page handle redirect

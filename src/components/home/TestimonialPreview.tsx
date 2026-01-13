@@ -35,6 +35,12 @@ const testimonials = [
     role: "Regular Customer",
     text: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.",
     image: "/images/person_3.jpg"
+  },
+  {
+    name: "Alice Smith",
+    role: "Food Critic",
+    text: "It is a paradisematic country, in which roasted parts of sentences fly into your mouth.",
+    image: "/images/person_2.jpg"
   }
 ];
 
@@ -102,7 +108,7 @@ export default function TestimonialPreview() {
                     transition={{ delay: 0.2 }}
                     className="text-gray-400 font-light"
                 >
-                    Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+                    Hear what our partners and clients have to say about the distinct quality and flavor of our beans.
                 </motion.p>
             </div>
 

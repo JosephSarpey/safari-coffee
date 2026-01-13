@@ -4,7 +4,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  category: "Gourmet" | "Artisan" | "Rich Brew";
+  category: "Gourmet" | "Artisanal" | "Rich Brew";
   roast: "Medium" | "Dark";
   profile: string[];
   origin: string;
@@ -16,7 +16,7 @@ export const products: Product[] = [
   {
     id: "gourmet-kenya",
     name: "Safari Gourmet - Coffee",
-    description: "100% Organic Beans grown in nutrient-rich volcanic soil. Has a fruity, floral, and wine-like profile.",
+    description: "100% Kenyan Beans grown in nutrient-rich volcanic soil. Has a fruity, floral, and wine-like profile.",
     price: 25.0,
     image: "/images/gourmet_type.jpeg",
     category: "Gourmet",
@@ -27,12 +27,12 @@ export const products: Product[] = [
     type: "Beans"
   },
   {
-    id: "artisan-kenya",
-    name: "Safari Artisan - Coffee",
+    id: "artisanal-kenya",
+    name: "Safari Artisanal - Coffee",
     description: "Crafted for the connoisseur, this artisan blend from volcanic highlands offers a complex profile of citrus and spice.",
     price: 28.0,
     image: "/images/artisan_type.jpeg",
-    category: "Artisan",
+    category: "Artisanal",
     roast: "Medium",
     profile: ["Fruity", "Citrus", "Spice"],
     origin: "Kenya",

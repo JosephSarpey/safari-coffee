@@ -1,58 +1,93 @@
-export interface MenuItem {
+export interface ApplicationItem {
   name: string;
   description: string;
-  price: number;
-  image?: string;
-  category: "Coffee" | "Pastry" | "Main";
+  category: "Beverage & Food" | "Health & Pharmaceutical" | "Cosmetic & Personal Care";
 }
 
-export const menuItems: MenuItem[] = [
+export const applicationItems: ApplicationItem[] = [
+  // Beverage & Food Uses
   {
-    name: "Espresso",
-    description: "A concentrated coffee brewed by forcing a small amount of nearly boiling water under pressure through finely-ground coffee beans.",
-    price: 3.50,
-    category: "Coffee"
+    name: "Brewed coffee",
+    description: "Espresso, filter coffee, cold brew, and other traditional brewing methods.",
+    category: "Beverage & Food"
   },
   {
-    name: "Americano",
-    description: "Prepared by diluting an espresso with hot water, giving it a similar strength to, but different flavor from, traditionally brewed coffee.",
-    price: 4.00,
-    category: "Coffee"
+    name: "Instant coffee & concentrates",
+    description: "Soluble coffee products and concentrated liquid extracts for quick preparation.",
+    category: "Beverage & Food"
   },
   {
-    name: "Cappuccino",
-    description: "An espresso-based coffee drink that originated in Italy, and is traditionally prepared with double espresso, hot milk, and steamed milk foam.",
-    price: 4.50,
-    category: "Coffee"
+    name: "Coffee flavoring",
+    description: "Natural coffee flavoring for ice cream, desserts, syrups, and baking.",
+    category: "Beverage & Food"
   },
   {
-    name: "Latte",
-    description: "A coffee drink of Italian origin made with espresso and steamed milk.",
-    price: 4.50,
-    category: "Coffee"
+    name: "Coffee flour",
+    description: "Nutrient-rich flour made from dried coffee cherry pulp (cascara).",
+    category: "Beverage & Food"
   },
   {
-    name: "Cold Brew",
-    description: "Coffee grounds steeped in cold water for an extended period, resulting in a smooth, less acidic flavor.",
-    price: 5.00,
-    category: "Coffee"
+    name: "Chocolate & confectionery",
+    description: "Coffee bean inclusions for chocolates, candies, and sweet treats.",
+    category: "Beverage & Food"
   },
   {
-    name: "Croissant",
-    description: "A buttery, flaky, viennoiserie pastry of Austrian origin, but mostly associated with France.",
-    price: 3.50,
-    category: "Pastry"
+    name: "Energy drinks & supplements",
+    description: "Natural caffeine source for energy drinks and performance supplements.",
+    category: "Beverage & Food"
   },
   {
-    name: "Blueberry Muffin",
-    description: "A sweet, cake-like baked good with blueberries.",
-    price: 3.00,
-    category: "Pastry"
+    name: "RTD Beverages",
+    description: "Ready-to-drink canned and bottled coffee beverages for retail markets.",
+    category: "Beverage & Food"
   },
   {
-    name: "Avocado Toast",
-    description: "Toasted bread topped with mashed avocado, salt, pepper, and citrus juice.",
-    price: 8.50,
-    category: "Main"
+    name: "Coffee Liqueurs",
+    description: "Premium coffee extracts for craft spirits and cocktail mixers.",
+    category: "Beverage & Food"
+  },
+
+  // Health & Pharmaceutical Uses
+  {
+    name: "Caffeine-based medicines",
+    description: "Pharmaceutical grade caffeine for analgesics and stimulants.",
+    category: "Health & Pharmaceutical"
+  },
+  {
+    name: "Antioxidant extracts",
+    description: "Green coffee bean extracts rich in chlorogenic acids for health products.",
+    category: "Health & Pharmaceutical"
+  },
+  {
+    name: "Nutraceutical products",
+    description: "Bioactive compounds from coffee for functional foods and additives.",
+    category: "Health & Pharmaceutical"
+  },
+  {
+    name: "Weight-management supplements",
+    description: "Green coffee extracts utilized in metabolic health and weight control formulations.",
+    category: "Health & Pharmaceutical"
+  },
+
+  // Cosmetic & Personal Care Uses
+  {
+    name: "Exfoliating Scrubs",
+    description: "Upcycled coffee grounds for natural body and face exfoliants.",
+    category: "Cosmetic & Personal Care"
+  },
+  {
+    name: "Anti-Aging Serums",
+    description: "Caffeine-enriched serums to reduce puffiness and tighten skin.",
+    category: "Cosmetic & Personal Care"
+  },
+  {
+    name: "Hair Care Products",
+    description: "Stimulating shampoos and conditioners promoting scalp health.",
+    category: "Cosmetic & Personal Care"
+  },
+  {
+    name: "Natural Dyes",
+    description: "Eco-friendly natural pigments derived from coffee for textiles and cosmetics.",
+    category: "Cosmetic & Personal Care"
   }
 ];

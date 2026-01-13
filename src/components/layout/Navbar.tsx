@@ -18,13 +18,12 @@ const NavLinks = [
     name: "Shop", 
     href: "/shop",
     isDropdown: true,
-    children: [
-      { name: "Menu", href: "/menu" },
+    children: [      
       { name: "Shop List", href: "/shop" },
       { name: "Cart", href: "/cart" },
       { name: "Checkout", href: "/checkout" },
-      { name: "Reservation", href: "/reservation" },
       { name: "Bulk Purchase", href: "/bulk-purchase" },
+      { name: "Applications", href: "/applications" },
     ]
   },
   { 

@@ -33,12 +33,12 @@ export default function AboutPage() {
               Safari Roast was born from the ancient volcanic landscapes of Kenya. We believe that true coffee character comes from the earth itself—forged by fire and nurtured by nature.
             </p>
             <p>
-              Our beans are sourced from family-run farms on the nutrient-rich volcanic slopes of the Great Rift Valley. It is this unique volcanic soil that gifts our 100% organic Arabica its distinct vitality. Every single origin Kenya bean we roast carries the legacy of this land—bold, complex, and erupting with flavor.
+              Our beans are sourced from family-run farms on the nutrient-rich volcanic slopes of the Great Rift Valley. It is this unique volcanic soil that gifts our 100% Arabica its distinct vitality. Every single origin Kenya bean we roast carries the legacy of this land—bold, complex, and erupting with flavor.
             </p>
             <div className="pt-4 grid grid-cols-2 gap-8 text-primary uppercase text-xs font-bold tracking-[0.3em]">
               <div className="space-y-2">
                 <span className="block text-4xl font-black">100%</span>
-                <span>Organic Certified</span>
+                <span>Kenyan</span>
               </div>
               <div className="space-y-2">
                 <span className="block text-4xl font-black">20+</span>

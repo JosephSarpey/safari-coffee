@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     default: "Safari Roast | Awaken the Explorer",
     template: "%s | Safari Roast",
   },
-  description: "Experience the best 100% organic single-origin Kenya coffee. Gourmet, Artisan, and Rich Brew roasts sourced directly from high-altitude farms.",
-  keywords: ["coffee", "kenya coffee", "organic coffee", "single origin", "safari roast", "specialty coffee"],
+  description: "Experience the best 100% single-origin Kenya coffee. Gourmet, Artisan, and Rich Brew roasts sourced directly from high-altitude farms.",
+  keywords: ["coffee", "kenya coffee", "single origin", "safari roast", "specialty coffee"],
   authors: [{ name: "Safari Roast Team" }],
   creator: "Safari Roast",
   openGraph: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: "https://safaricoffee.com",
     siteName: "Safari Roast",
     title: "Safari Roast | Awaken the Explorer",
-    description: "Experience the best 100% organic single-origin Kenya coffee.",
+    description: "Experience the best 100% single-origin Kenya coffee.",
     images: [
       {
         url: "/images/safari_image_1.jpeg",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Safari Roast | Awaken the Explorer",
-    description: "Experience the best 100% organic single-origin Kenya coffee.",
+    description: "Experience the best 100% single-origin Kenya coffee.",
     images: ["/images/safari_image_1.jpeg"],
   },
 };

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Coffee, MapPin, Phone, Mail, Instagram, Twitter, Facebook } from "lucide-react";
 import Newsletter from "./Newsletter";
 import { usePathname } from "next/navigation";
+import { li } from "framer-motion/client";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -31,18 +32,18 @@ export default function Footer() {
 
       <div className="relative z-10 container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-gray-400">
         {/* Brand */}
-            <div className="space-y-6">
-              <Link href="/" className="flex flex-col">
-                <span className="text-white text-2xl font-bold uppercase tracking-tight leading-none">
-                  Safari
-                </span>
-                <span className="text-white/70 text-[10px] uppercase tracking-[0.4em] mt-1 leading-none">
-                  Roast
-                </span>
-              </Link>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
-              </p>
+        <div className="space-y-6">
+          <Link href="/" className="flex flex-col">
+            <span className="text-white text-2xl font-bold uppercase tracking-tight leading-none">
+              Safari
+            </span>
+            <span className="text-white/70 text-[10px] uppercase tracking-[0.4em] mt-1 leading-none">
+              Roast
+            </span>
+          </Link>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            "Great Coffee is not an accident - it is a result of origin, precision, and discipline at every stage."
+          </p>
           <div className="flex space-x-4">
             <Facebook className="h-5 w-5 hover:text-primary cursor-pointer transition-colors" />
             <Twitter className="h-5 w-5 hover:text-primary cursor-pointer transition-colors" />
@@ -54,7 +55,7 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-white font-semibold uppercase tracking-widest text-sm">Quick Links</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/menu" className="hover:text-primary transition-colors">Menu</Link></li>
+            <li><Link href="/applications" className="hover:text-primary transition-colors">Applications</Link></li>
             <li><Link href="/about" className="hover:text-primary transition-colors">Our Story</Link></li>
             <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
             <li><Link href="/reservation" className="hover:text-primary transition-colors">Reservations</Link></li>
@@ -64,7 +65,7 @@ export default function Footer() {
         {/* Recent Blog/News placeholder */}
         <div className="space-y-4">
           <h4 className="text-white font-semibold uppercase tracking-widest text-sm">Our Origin</h4>
-          <p className="text-sm italic">"100% Organic Single-Origin Kenya Beans"</p>
+          <p className="text-sm italic">"100% Single-Origin Kenya Beans"</p>
           <div className="flex items-center space-x-2">
             <Coffee className="text-primary h-4 w-4" />
             <span className="text-xs">Medium & Dark Roasts</span>

@@ -1,36 +1,36 @@
 import PageHeader from "@/components/shared/PageHeader";
-import { Coffee, Truck, CreditCard, Gift, Users, Clock } from "lucide-react";
+import { Truck, CheckCircle, Globe, Smartphone, Flame, Leaf } from "lucide-react";
 
 const services = [
   {
-    title: "Easy to Order",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
-    icon: Gift
+    title: "Global Logistics",
+    desc: "Efficient worldwide shipping solutions to ensure your bulk orders arrive fresh and on time.",
+    icon: Globe
   },
   {
-    title: "Fastest Delivery",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
+    title: "Wholesale Supply",
+    desc: "Consistent, high-volume supply chains designed for coffee shops, distributors, and retailers.",
     icon: Truck
   },
   {
-    title: "Quality Coffee",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
-    icon: Coffee
+    title: "Quality Control",
+    desc: "Rigorous sorting, grading, and cupping processes to guarantee premium defect-free beans.",
+    icon: CheckCircle
   },
   {
-    title: "Subscription Plans",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
-    icon: Clock
+    title: "Seamless Ordering",
+    desc: "Streamlined digital ordering process for quick restocking and account management.",
+    icon: Smartphone
   },
   {
-    title: "Event Catering",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
-    icon: Users
+    title: "Custom Roasting",
+    desc: "Tailored roast profiles developed by our master roasters to match your specific flavor requirements.",
+    icon: Flame
   },
   {
-    title: "Secure Payment",
-    desc: "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.",
-    icon: CreditCard
+    title: "Sustainable Sourcing",
+    desc: "Direct trade relationships ensuring fair compensation for farmers and environmentally conscious farming.",
+    icon: Leaf
   }
 ];
 
@@ -60,7 +60,7 @@ export default function ServicePage() {
         <div className="container max-w-4xl space-y-8">
           <span className="font-nothing text-primary text-3xl">Coffee is a language in itself</span>
           <p className="text-white text-2xl md:text-3xl font-light italic leading-relaxed">
-            "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth."
+            "Great Coffee is not an accident - it is a result of origin, precision, and discipline at every stage."
           </p>
         </div>
       </section>

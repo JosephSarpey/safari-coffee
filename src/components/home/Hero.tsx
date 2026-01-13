@@ -11,7 +11,7 @@ const slides = [
     subtitle: "The Source",
     title: "Forged in Volcanic Fire",
     highlight: "Volcanic Fire",
-    description: "Grown in the nutrient-rich ash of the Great Rift Valley, our beans absorb the earth's raw power."
+    description: "Grown in the nutrient-rich volcanic soil of the Great Rift Valley, our beans absorb the earth's raw power."
   },
   {
     id: 2,
@@ -89,8 +89,8 @@ export default function Hero() {
                 <Link href="/join" className="btn-primary">
                   Join the Expedition
                 </Link>
-                <Link href="/menu" className="btn-white-outline">
-                  View Menu
+                <Link href="/applications" className="btn-white-outline">
+                  View Applications
                 </Link>
               </div>
             </motion.div> 

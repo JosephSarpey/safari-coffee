@@ -4,7 +4,7 @@ import MenuPreview from "@/components/home/MenuPreview";
 import Statistics from "@/components/home/Statistics";
 import TestimonialPreview from "@/components/home/TestimonialPreview";
 import BlogPreview from "@/components/home/BlogPreview";
-import AppointmentSection from "@/components/home/AppointmentSection";
+import ContactSection from "@/components/home/ContactSection";
 import GallerySection from "@/components/home/GallerySection";
 import { Clock, Truck, Coffee } from "lucide-react";
 
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      
+
       {/* Featured Services */}
       <section className="bg-zinc-900 py-12 border-y border-primary/10">
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -34,7 +34,7 @@ export default function Home() {
             <Coffee className="h-10 w-10 text-primary flex-shrink-0 group-hover:scale-110 transition-transform" />
             <div className="space-y-1">
               <h4 className="text-white font-bold uppercase tracking-widest text-sm">Quality Coffee</h4>
-              <p className="text-xs text-gray-500">100% Organic Kenya Beans</p>
+              <p className="text-xs text-gray-500">100% Kenya Beans</p>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function Home() {
       <MenuPreview />
       <TestimonialPreview />
       <BlogPreview />
-      <AppointmentSection />
+      <ContactSection />
       <GallerySection />
     </>
 

@@ -1,10 +1,10 @@
 "use client";
 
-import { MenuItem } from "@/data/menu-items";
+import { ApplicationItem } from "@/data/menu-items";
 import { useState } from "react";
 import SearchInput from "@/components/shared/SearchInput";
 
-export default function MenuList({ items }: { items: MenuItem[] }) {
+export default function MenuList({ items }: { items: ApplicationItem[] }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter items based on search query
@@ -13,47 +13,77 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
     item.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Split filtered items into two columns
-  const midPoint = Math.ceil(filteredItems.length / 2);
-  const leftColumn = filteredItems.slice(0, midPoint);
-  const rightColumn = filteredItems.slice(midPoint);
+  // Group items by category
+  const beverageAndFood = filteredItems.filter(item => item.category === "Beverage & Food");
+  const healthAndPharma = filteredItems.filter(item => item.category === "Health & Pharmaceutical");
+  const cosmeticAndPersonal = filteredItems.filter(item => item.category === "Cosmetic & Personal Care");
 
   return (
     <section className="bg-zinc-900 py-16">
       <div className="container">
-        
+
         <div className="text-center mb-8">
-            <span className="font-nothing text-primary text-3xl block mb-2">Discover</span>
-            <h2 className="text-4xl font-black uppercase tracking-widest text-white">Our Menu</h2>
+          <span className="font-nothing text-primary text-3xl block mb-2">Capabilities</span>
+          <h2 className="text-4xl font-black uppercase tracking-widest text-white">Bean Utilities</h2>
         </div>
 
         <div className="mb-12 max-w-md mx-auto">
-          <SearchInput 
+          <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search our menu..."
+            placeholder="Search applications..."
           />
         </div>
 
         {filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8">
-            {/* Left Column */}
-            <div className="space-y-8">
-              {leftColumn.map((item, index) => (
-                <MenuItemRow key={index} item={item} />
-              ))}
-            </div>
+          <div className="space-y-16">
 
-            {/* Right Column */}
-            <div className="space-y-8">
-              {rightColumn.map((item, index) => (
-                <MenuItemRow key={index} item={item} />
-              ))}
-            </div>
+            {/* Beverage & Food Section */}
+            {beverageAndFood.length > 0 && (
+              <div className="space-y-8">
+                <h3 className="text-2xl font-bold text-primary uppercase tracking-wider text-center border-b border-primary/20 pb-4 max-w-2xl mx-auto">
+                  Beverage & Food Uses
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                  {beverageAndFood.map((item, index) => (
+                    <ApplicationItemRow key={index} item={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Health & Pharma Section */}
+            {healthAndPharma.length > 0 && (
+              <div className="space-y-8">
+                <h3 className="text-2xl font-bold text-primary uppercase tracking-wider text-center border-b border-primary/20 pb-4 max-w-2xl mx-auto">
+                  Health & Pharmaceutical Uses
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                  {healthAndPharma.map((item, index) => (
+                    <ApplicationItemRow key={index} item={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Cosmetic & Personal Care Section */}
+            {cosmeticAndPersonal.length > 0 && (
+              <div className="space-y-8">
+                <h3 className="text-2xl font-bold text-primary uppercase tracking-wider text-center border-b border-primary/20 pb-4 max-w-2xl mx-auto">
+                  Cosmetic & Personal Care Uses
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                  {cosmeticAndPersonal.map((item, index) => (
+                    <ApplicationItemRow key={index} item={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-gray-400 text-lg">No menu items found matching "{searchQuery}"</p>
+            <p className="text-gray-400 text-lg">No applications found matching "{searchQuery}"</p>
           </div>
         )}
       </div>
@@ -61,17 +91,13 @@ export default function MenuList({ items }: { items: MenuItem[] }) {
   );
 }
 
-function MenuItemRow({ item }: { item: MenuItem }) {
+function ApplicationItemRow({ item }: { item: ApplicationItem }) {
   return (
-    <div className="group">
+    <div className="group bg-zinc-800/30 p-6 rounded-lg border border-primary/5 hover:border-primary/20 transition-all">
       <div className="flex items-baseline justify-between mb-2">
-        <h3 className="text-white text-lg font-bold uppercase tracking-wider group-hover:text-primary transition-colors">
+        <h4 className="text-white text-lg font-bold uppercase tracking-wider group-hover:text-primary transition-colors">
           {item.name}
-        </h3>
-        <span className="flex-1 mx-4 border-b border-gray-700 border-dashed opacity-50 relative top-[-6px]"></span>
-        <span className="text-primary text-xl font-nothing">
-          ${item.price.toFixed(2)}
-        </span>
+        </h4>
       </div>
       <p className="text-gray-400 text-sm font-light leading-relaxed">
         {item.description}

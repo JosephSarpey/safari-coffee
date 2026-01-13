@@ -33,10 +33,13 @@ export function AccountNavbar() {
   const handleLogout = async () => {
       try {
           await authApi.logout();
-          localStorage.removeItem('user'); // Clear any stale user data
+          useAuthStore.getState().logout();
           router.push('/'); 
       } catch (error) {
           console.error("Logout failed", error);
+          // Force logout on client side even if server fails
+          useAuthStore.getState().logout();
+          router.push('/');
       }
   };
 

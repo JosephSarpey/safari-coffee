@@ -1,15 +1,74 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, User, MessageCircle } from "lucide-react";
 
-import { blogPosts } from "@/data/blog-posts";
-
-const recentPosts = blogPosts.slice(0, 3);
+import { BlogPost } from "@/data/blog-posts";
+import { contentApi } from "@/lib/api/content";
 
 export default function BlogPreview() {
+    const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                setLoading(true);
+                const blogs = await contentApi.getBlogs();
+                setRecentPosts(blogs.slice(0, 3));
+            } catch (err: any) {
+                console.error("Failed to fetch blog posts:", err);
+                setError(err.message || "Failed to load blog posts");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
+    if (loading) {
+        return (
+            <section className="section-padding bg-black relative">
+                <div className="container">
+                    <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
+                        <span className="font-great-vibes text-primary text-3xl">Knowledge</span>
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-widest text-white">Industry Insights</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="animate-pulse">
+                                <div className="h-64 bg-gray-800 rounded"></div>
+                                <div className="pt-6 space-y-3">
+                                    <div className="h-4 bg-gray-800 rounded w-3/4"></div>
+                                    <div className="h-6 bg-gray-800 rounded w-full"></div>
+                                    <div className="h-4 bg-gray-800 rounded w-5/6"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="section-padding bg-black relative">
+                <div className="container text-center">
+                    <p className="text-red-500">{error}</p>
+                </div>
+            </section>
+        );
+    }
+
+    if (recentPosts.length === 0) {
+        return null;
+    }
     return (
         <section className="section-padding bg-black relative">
             <div className="container">

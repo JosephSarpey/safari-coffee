@@ -17,7 +17,7 @@ export default function Footer() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/footer-bg.jpg"
+          src="/images/bg_1.jpg"
           alt="Footer Background"
           fill
           className="object-cover opacity-50"
@@ -34,12 +34,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="space-y-6">
           <Link href="/" className="flex flex-col">
-            <span className="text-white text-2xl font-bold uppercase tracking-tight leading-none">
-              Safari
-            </span>
-            <span className="text-white/70 text-[10px] uppercase tracking-[0.4em] mt-1 leading-none">
-              Roast
-            </span>
+            <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} />
           </Link>
           <p className="text-gray-400 text-sm leading-relaxed">
             "Great Coffee is not an accident - it is a result of origin, precision, and discipline at every stage."

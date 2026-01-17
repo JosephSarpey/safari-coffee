@@ -9,11 +9,11 @@ export default function MenuPreview() {
   return (
     <section className="section-padding relative overflow-hidden">
       {/* Background Pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{ backgroundImage: "url('/images/bg_4.jpg')", backgroundAttachment: 'fixed' }}
+        style={{ backgroundImage: "url('/images/bg_2.jpg')", backgroundAttachment: 'fixed' }}
       />
-      
+
       <div className="container relative z-10 space-y-16">
         <header className="text-center space-y-4 max-w-2xl mx-auto">
           <span className="font-great-vibes text-primary text-[30px] block">Our Collection</span>

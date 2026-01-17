@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/layout/CookieConsent";
+import ChatWidget from "@/components/shared/ChatWidget";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -39,6 +40,9 @@ export const metadata: Metadata = {
     description: "Experience the best 100% single-origin Kenya coffee.",
     images: ["/images/safari_image_1.jpeg"],
   },
+  icons: {
+    icon: "/images/logo_1.png",
+  },
 };
 
 export default function RootLayout({
@@ -53,8 +57,9 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <CookieConsent />
+        <ChatWidget />
         <Toaster position="top-center" richColors />
       </body>
-    </html>
+    </html >
   );
 }

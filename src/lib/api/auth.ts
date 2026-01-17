@@ -50,4 +50,11 @@ export const authApi = {
         body: JSON.stringify(data),
     });
   },
+
+  verifyOtp: async (data: { email: string; otp: string }) => {
+    return fetchClient('/auth/verify-otp', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+  },
 };

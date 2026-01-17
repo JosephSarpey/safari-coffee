@@ -21,18 +21,12 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
-        const data = await authApi.forgotPassword({ email });
-
-        // Ideally we don't show the token, but for simulation we might need it if we don't have email sending
-        if (data && data.token) {
-             console.log('Reset token:', data.token);
-        }
-        
-        setSubmitted(true);
+      await authApi.forgotPassword({ email });
+      setSubmitted(true);
     } catch (err: any) {
-        setError(err.message);
+      setError(err.message);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -61,64 +55,64 @@ export default function ForgotPasswordPage() {
         </div>
 
         {submitted ? (
-            <div className="text-center space-y-4">
-                <div className="flex justify-center">
-                    <CheckCircle2 className="w-16 h-16 text-green-500" />
-                </div>
-                <h2 className="text-xl font-semibold text-white">Check your email</h2>
-                <p className="text-gray-400 text-sm">
-                    We've sent password reset instructions to <strong>{email}</strong>
-                </p>
-                <div className="pt-4">
-                    <Link href="/login">
-                        <Button className="w-full bg-white/10 hover:bg-white/20 text-white">
-                            Back to Login
-                        </Button>
-                    </Link>
-                </div>
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <CheckCircle2 className="w-16 h-16 text-green-500" />
             </div>
-        ) : (
-            <>
-                {error && (
-                    <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm text-center">
-                        {error}
-                    </div>
-                )}
-                <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                    <Label htmlFor="email" className="text-xs uppercase tracking-widest text-gray-300">
-                    Email
-                    </Label>
-                    <Input
-                    id="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-black/50 border-white/20 text-white placeholder:text-gray-500 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-                    />
-                </div>
-
-                <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full h-12 bg-primary text-black hover:bg-primary/90 uppercase tracking-widest font-bold text-sm transition-all"
-                >
-                    {isLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                    "Send Instructions"
-                    )}
+            <h2 className="text-xl font-semibold text-white">Check your email</h2>
+            <p className="text-gray-400 text-sm">
+              We've sent password reset instructions to <strong>{email}</strong>
+            </p>
+            <div className="pt-4">
+              <Link href="/login">
+                <Button className="w-full bg-white/10 hover:bg-white/20 text-white">
+                  Back to Login
                 </Button>
-                </form>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <>
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm text-center">
+                {error}
+              </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-xs uppercase tracking-widest text-gray-300">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-black/50 border-white/20 text-white placeholder:text-gray-500 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
+                />
+              </div>
 
-                <div className="mt-8 text-center text-sm text-gray-400">
-                    <Link href="/login" className="text-primary hover:text-white transition-colors uppercase tracking-wider font-semibold flex items-center justify-center gap-2">
-                        <ArrowRight className="w-4 h-4 rotate-180" /> Back to Login
-                    </Link>
-                </div>
-            </>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-12 bg-primary text-black hover:bg-primary/90 uppercase tracking-widest font-bold text-sm transition-all"
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Send Instructions"
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-8 text-center text-sm text-gray-400">
+              <Link href="/login" className="text-primary hover:text-white transition-colors uppercase tracking-wider font-semibold flex items-center justify-center gap-2">
+                <ArrowRight className="w-4 h-4 rotate-180" /> Back to Login
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>

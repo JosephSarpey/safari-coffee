@@ -11,7 +11,7 @@ export default function PageHeader({ title, subtitle, backgroundImage }: PageHea
   return (
     <div className="relative pt-40 pb-20 overflow-hidden text-center">
       <Image
-        src={backgroundImage || "/images/bg_3.jpg"}
+        src={backgroundImage || "/images/gallery_roasting.jpg"}
         alt={title}
         fill
         priority

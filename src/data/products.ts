@@ -4,12 +4,12 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  category: "Gourmet" | "Artisanal" | "Rich Brew";
-  roast: "Medium" | "Dark";
+  category: string;
+  roast: string;
   profile: string[];
   origin: string;
   weight: string[];
-  type: "Beans" | "Ground" | "Both";
+  type: string;
 }
 
 export const products: Product[] = [
@@ -27,12 +27,12 @@ export const products: Product[] = [
     type: "Beans"
   },
   {
-    id: "artisanal-kenya",
-    name: "Safari Artisanal - Coffee",
+    id: "artisan-kenya",
+    name: "Safari Artisan - Coffee",
     description: "Crafted for the connoisseur, this artisan blend from volcanic highlands offers a complex profile of citrus and spice.",
     price: 28.0,
     image: "/images/artisan_type.jpeg",
-    category: "Artisanal",
+    category: "Artisan",
     roast: "Medium",
     profile: ["Fruity", "Citrus", "Spice"],
     origin: "Kenya",

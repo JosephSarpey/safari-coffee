@@ -23,7 +23,7 @@ const slides = [
   },
   {
     id: 3,
-    image: "/images/hero_farmer.jpg",
+    image: "/images/hero_cherries.jpg",
     subtitle: "The Promise",
     title: "Taste the Spirit of Kenya",
     highlight: "Spirit of Kenya",
@@ -47,9 +47,8 @@ export default function Hero() {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === current ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === current ? "opacity-100" : "opacity-0"
+            }`}
         >
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
@@ -93,7 +92,7 @@ export default function Hero() {
                   View Applications
                 </Link>
               </div>
-            </motion.div> 
+            </motion.div>
           </AnimatePresence>
         </div>
       </div>
@@ -104,9 +103,8 @@ export default function Hero() {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-              index === current ? "bg-primary" : "bg-white/50 hover:bg-white"
-            }`}
+            className={`w-3 h-3 rounded-full transition-colors duration-300 ${index === current ? "bg-primary" : "bg-white/50 hover:bg-white"
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

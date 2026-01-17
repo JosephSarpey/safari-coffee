@@ -7,8 +7,8 @@ import ContactForm from "@/components/contact/ContactForm";
 export default function ContactPage() {
   return (
     <div className="bg-zinc-950 min-h-screen">
-      <PageHeader title="Contact Us" subtitle="Contact" backgroundImage="/images/gallery-3.jpg" />
-      
+      <PageHeader title="Contact Us" subtitle="Contact" backgroundImage="/images/safari_t_shirt.jpg" />
+
       <section className="section-padding">
         <div className="container overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-primary/10 border border-primary/20">
@@ -32,7 +32,7 @@ export default function ContactPage() {
                   </div>
                   <p className="text-sm text-gray-500">203 Fake St. Mountain View, San Francisco, California, USA</p>
                 </div>
-                
+
                 <div className="space-y-2">
                   <div className="flex items-center space-x-3 text-primary mb-2">
                     <Phone className="h-4 w-4" />
@@ -60,7 +60,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-<ContactForm />
+            <ContactForm />
           </div>
         </div>
       </section>

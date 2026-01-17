@@ -41,17 +41,52 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
 
   try {
     const response = await fetch(url, config);
-    const data = await response.json();
+    
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      if (!response.ok) {
+        throw new ApiError(response.statusText || 'Internal Server Error', response.status, null);
+      }
+      
+      data = null;
+    }
 
     if (!response.ok) {
-      throw new ApiError(data.message || 'Something went wrong', response.status, data);
+      let message = data?.message || response.statusText || 'Something went wrong';
+
+      if (response.status === 429) {
+          message = 'Too many requests. Please try again later.';
+          const retryAfter = response.headers.get('Retry-After');
+          if (retryAfter) {
+              if (typeof data !== 'object' || data === null) {
+                  data = {};
+              }
+              data.retryAfter = retryAfter;
+          }
+      }
+      
+      // Debug log to trace error data
+      console.log('[API Debug] Non-ok response data:', JSON.stringify(data));
+      
+      throw new ApiError(message, response.status, data);
     }
 
     return data as T;
   } catch (error: any) {
     if (error instanceof ApiError) {
+        console.error(`[API] Error ${error.status} on ${endpoint}:`, error.message, error.data);
         throw error;
     }
-    throw new Error(error.message || 'Network Error');
+    
+    console.error(`[API] Network or unknown error on ${endpoint}:`, error);
+    
+    // Improve generic "faled to fetch" message
+    if (error.message === 'Failed to fetch') {
+       throw new Error('Internal server error occurred. Please check your connection or try again later.'); 
+    }
+    
+    throw new Error(error.message || 'Internal server error occurred');
   }
 }

@@ -1,5 +1,3 @@
-import { useAuthStore } from '@/store/auth-store';
-
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
 
 type FetchOptions = RequestInit & {
@@ -34,19 +32,9 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
     },
   };
 
-  // Proactively refresh token if not in memory (silent session restoration)
-  if (typeof window !== 'undefined' && !endpoint.includes('auth/')) {
-      const token = useAuthStore.getState().accessToken;
-      if (!token) {
-          try {
-              const newToken = await refreshAuthToken();
-              if (newToken) {
-                  (config.headers as any)['Authorization'] = `Bearer ${newToken}`;
-              }
-          } catch (e) {
-              // No valid session, proceed without token
-          }
-      } else {
+  if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('access_token');
+      if (token) {
           (config.headers as any)['Authorization'] = `Bearer ${token}`;
       }
   }
@@ -94,41 +82,11 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
     
     console.error(`[API] Network or unknown error on ${endpoint}:`, error);
     
+    // Improve generic "faled to fetch" message
     if (error.message === 'Failed to fetch') {
        throw new Error('Internal server error occurred. Please check your connection or try again later.'); 
     }
     
     throw new Error(error.message || 'Internal server error occurred');
   }
-}
-
-let refreshPromise: Promise<string> | null = null;
-
-async function refreshAuthToken(): Promise<string> {
-    if (refreshPromise) return refreshPromise;
-
-    refreshPromise = (async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (!response.ok) {
-                throw new Error('Refresh failed');
-            }
-
-            const data = await response.json();
-            useAuthStore.getState().login(data.user, data.access_token);
-            return data.access_token;
-        } catch (error) {
-            useAuthStore.getState().logout();
-            throw error;
-        } finally {
-            refreshPromise = null;
-        }
-    })();
-
-    return refreshPromise;
 }

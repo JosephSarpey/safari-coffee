@@ -23,27 +23,10 @@ export function AccountShell({ children, type }: AccountShellProps) {
     useEffect(() => {
         if (!isMounted) return;
 
-        const checkAuth = async () => {
-            // If not authenticated in store, try to fetch profile (which will trigger refresh if cookie exists)
-            if (!isAuthenticated) {
-                try {
-                    // This call will fail with 401 if no valid cookie, but if valid cookie exists (even if access token missing in store),
-                    // the client interceptor will refresh and updated the store.
-                    const { userApi } = await import("@/lib/api/user");
-                    const userProfile = await userApi.getProfile();
-                    useAuthStore.getState().updateUser(userProfile);
-                } catch (e) {
-                    router.push('/login');
-                }
-            }
-        };
-
-        checkAuth();
-    }, [isMounted, isAuthenticated, router]);
-
-    useEffect(() => {
-        if (!isMounted) return;
-        if (!isAuthenticated) return; // Wait for checkAuth to potentially fix state
+        if (!isAuthenticated) {
+            router.push('/login');
+            return;
+        }
 
         if (type === 'company' && user?.role !== 'COMPANY') {
             router.push('/account/user');

@@ -1,13 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserProfile } from '@/types/user';
+import { UserProfile } from '@/lib/api/user';
 
 interface AuthState {
     user: UserProfile | null;
-    accessToken: string | null;
     isAuthenticated: boolean;
-    login: (user: UserProfile, accessToken: string) => void;
-    setAccessToken: (token: string) => void;
+    login: (user: UserProfile) => void;
     logout: () => void;
     updateUser: (user: Partial<UserProfile>) => void;
 }
@@ -16,14 +14,12 @@ export const useAuthStore = create<AuthState>()(
     persist(
         (set) => ({
             user: null,
-            accessToken: null,
             isAuthenticated: false,
-            login: (user, accessToken) => set({ user, accessToken, isAuthenticated: true }),
-            setAccessToken: (accessToken) => set({ accessToken }),
+            login: (user) => set({ user, isAuthenticated: true }),
             logout: () => {
-                localStorage.removeItem('user'); // Clean up legacy manual storage
+                localStorage.removeItem('user'); // Clean up legacy manual storage just in case
                 localStorage.removeItem('access_token');
-                set({ user: null, accessToken: null, isAuthenticated: false });
+                set({ user: null, isAuthenticated: false });
             },
             updateUser: (updatedUser) => set((state) => ({
                 user: state.user ? { ...state.user, ...updatedUser } : null
@@ -31,10 +27,6 @@ export const useAuthStore = create<AuthState>()(
         }),
         {
             name: 'auth-storage',
-            partialize: (state) => ({ 
-                user: state.user, 
-                isAuthenticated: state.isAuthenticated 
-            }), // Do not persist accessToken
         }
     )
 );

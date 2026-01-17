@@ -71,6 +71,17 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
 
+    // Sync auth state
+    const checkAuth = async () => {
+      try {
+        const user = await userApi.getProfile();
+        useAuthStore.getState().login(user);
+      } catch (error) {
+        console.error("Failed to check auth state", error);
+      }
+    };
+    checkAuth();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -86,7 +97,7 @@ export default function Navbar() {
       <div className="container relative flex items-center justify-between h-20 md:h-24">
         {/* Brand */}
         <Link href="/" className="flex flex-col items-center z-50">
-          <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} style={{ height: 'auto' }} />
+          <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} />
         </Link>
 
         {/* Desktop Nav Links (Centered) */}

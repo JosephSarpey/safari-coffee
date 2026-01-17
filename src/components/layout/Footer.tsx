@@ -34,7 +34,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="space-y-6">
           <Link href="/" className="flex flex-col">
-            <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} style={{ height: 'auto' }} />
+            <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} />
           </Link>
           <p className="text-gray-400 text-sm leading-relaxed">
             "Great Coffee is not an accident - it is a result of origin, precision, and discipline at every stage."

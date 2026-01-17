@@ -1,17 +1,7 @@
 import { fetchClient } from './client';
+import { UserProfile } from '@/types/user';
 
-export interface UserProfile {
-  id: string;
-  email: string;
-  name: string;
-  role: 'CUSTOMER' | 'COMPANY';
-  companyName?: string;
-  phoneNumber?: string;
-  country?: string;
-  gender?: string;
-  avatar?: string;
-  createdAt: string;
-}
+export type { UserProfile };
 
 export const userApi = {
   getProfile: async () => {

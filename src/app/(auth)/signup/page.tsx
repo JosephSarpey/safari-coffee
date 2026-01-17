@@ -37,11 +37,9 @@ export default function SignUpPage() {
 
   const handleLoginSuccess = (user: any, access_token: string) => {
     localStorage.setItem('user', JSON.stringify(user));
-    if (access_token) {
-      localStorage.setItem('access_token', access_token);
-    }
 
-    useAuthStore.getState().login(user);
+    // access_token is passed to the store to be held in memory
+    useAuthStore.getState().login(user, access_token);
 
     if (user.role === 'COMPANY') {
       window.location.href = '/account/company';

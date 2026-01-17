@@ -11,21 +11,28 @@ import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image";
 
 export function AccountNavbar() {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const storeUser = useAuthStore((state) => state.user);
+  const [user, setUser] = useState<UserProfile | null>(storeUser);
   const router = useRouter();
 
   useEffect(() => {
+    // Only fetch if store doesn't have user data
+    if (storeUser) {
+      setUser(storeUser);
+      return;
+    }
+
     const loadProfile = async () => {
       try {
         const data = await userApi.getProfile();
         setUser(data);
-        useAuthStore.getState().login(data); // Sync global store
+        useAuthStore.getState().updateUser(data);
       } catch (error) {
         console.error("Failed to load profile in navbar", error);
       }
     };
     loadProfile();
-  }, []);
+  }, [storeUser]);
 
   const handleLogout = async () => {
     try {
@@ -46,7 +53,7 @@ export function AccountNavbar() {
         <div className="flex items-center gap-2 group">
           {/* logo */}
           <Link href="/">
-            <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} priority />
+            <Image src="/images/logo_new.png" alt="Logo" width={100} height={100} priority style={{ height: 'auto' }} />
           </Link>
         </div>
         <Link href="/" className="hidden md:flex text-sm text-stone-400 hover:text-white transition-colors items-center gap-2">

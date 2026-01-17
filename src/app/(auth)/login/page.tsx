@@ -67,12 +67,13 @@ export default function LoginPage() {
   };
 
   const handleLoginSuccess = (user: any, access_token: string) => {
+    // Only persist user data for UI (or even better, let store handle persistence whitelist)
     localStorage.setItem('user', JSON.stringify(user));
-    if (access_token) {
-      localStorage.setItem('access_token', access_token);
-    }
 
-    useAuthStore.getState().login(user);
+    // access_token is NO LONGER stored in localStorage
+    // access_token is passed to the store to be held in memory
+
+    useAuthStore.getState().login(user, access_token);
 
     if (user.role === 'COMPANY') {
       window.location.href = '/account/company';

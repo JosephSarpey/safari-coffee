@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
-import { products } from "@/data/products";
+import { Product } from "@/data/products";
+import { contentApi } from "@/lib/api/content";
 import PageHeader from "@/components/shared/PageHeader";
 import { useCartStore } from "@/store/cart-store";
-import { Minus, Plus, ShoppingCart, Star } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Star, Loader2 } from "lucide-react";
 import ProductCard from "@/components/shared/ProductCard";
 
 import { toast } from "sonner";
@@ -14,19 +15,57 @@ import { toast } from "sonner";
 export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
-  const product = products.find((p) => p.id === id);
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState<"description" | "additionalInfo" | "reviews">("description");
   const addItem = useCartStore((state) => state.addItem);
 
-  if (!product) {
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [productData, allProducts] = await Promise.all([
+          contentApi.getProduct(id),
+          contentApi.getProducts()
+        ]);
+
+        setProduct(productData);
+        setRelatedProducts(allProducts.filter(p => p.id !== id).slice(0, 4));
+      } catch (err: any) {
+        console.error("Failed to fetch product:", err);
+        setError(err.message || "Failed to load product");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="bg-zinc-950 min-h-screen">
+        <PageHeader title="Loading..." subtitle="Shop Details" />
+        <div className="flex items-center justify-center py-32">
+          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return notFound();
   }
 
-  const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
-
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
-        addItem(product);
+      addItem(product);
     }
     toast.success(`${product.name} added to cart`);
   };
@@ -114,34 +153,74 @@ export default function ProductDetailPage() {
 
         {/* Tabs */}
         <div className="mt-20">
-            <div className="border-b border-primary/20 flex space-x-8 mb-8 overflow-x-auto">
-                <button className="text-primary border-b-2 border-primary pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap">Description</button>
-                <button className="text-gray-500 hover:text-white pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap transition-colors">Additional Info</button>
-                <button className="text-gray-500 hover:text-white pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap transition-colors">Reviews (1)</button>
-            </div>
-            <div className="text-gray-400 font-light leading-relaxed max-w-3xl">
+          <div className="border-b border-primary/20 flex space-x-8 mb-8 overflow-x-auto">
+            <button
+              onClick={() => setActiveTab("description")}
+              className={`pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap transition-colors ${activeTab === "description" ? "text-primary border-b-2 border-primary" : "text-gray-500 hover:text-white"}`}
+            >
+              Description
+            </button>
+            <button
+              onClick={() => setActiveTab("additionalInfo")}
+              className={`pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap transition-colors ${activeTab === "additionalInfo" ? "text-primary border-b-2 border-primary" : "text-gray-500 hover:text-white"}`}
+            >
+              Additional Info
+            </button>
+            <button
+              onClick={() => setActiveTab("reviews")}
+              className={`pb-4 font-bold uppercase tracking-widest text-sm whitespace-nowrap transition-colors ${activeTab === "reviews" ? "text-primary border-b-2 border-primary" : "text-gray-500 hover:text-white"}`}
+            >
+              Reviews (1)
+            </button>
+          </div>
+          <div className="text-gray-400 font-light leading-relaxed max-w-3xl">
+            {activeTab === "description" && (
+              <>
                 <p>
-                    Experience the rich tradition of {product.origin} coffee with our {product.name}. 
-                    Carefully selected from the finest crops, these beans are roasted to a perfect {product.roast} level to verify their unique 
-                    {product.profile.join(", ")} notes. Perfect for any brewing method, this coffee promises a memorable start to your morning
-                    or a delightful afternoon treat.
+                  Experience the rich tradition of {product.origin} coffee with our {product.name}.
+                  Carefully selected from the finest crops, these beans are roasted to a perfect {product.roast} level to verify their unique {product.profile.join(", ")} notes. Perfect for any brewing method, this coffee promises a memorable start to your morning
+                  or a delightful afternoon treat.
                 </p>
                 <br />
                 <p>
-                    Our commitment to organic farming ensures that every cup is free from harmful chemicals, preserving the 
-                    natural ecosystem and delivering pure, unadulterated flavor.
+                  Our commitment to organic farming ensures that every cup is free from harmful chemicals, preserving the
+                  natural ecosystem and delivering pure, unadulterated flavor.
                 </p>
-            </div>
+              </>
+            )}
+            {activeTab === "additionalInfo" && (
+              <div className="space-y-4">
+                {product.additionalInfo ? (
+                  <p className="whitespace-pre-line">{product.additionalInfo}</p>
+                ) : (
+                  <p className="text-gray-500 italic">No additional information available for this product.</p>
+                )}
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-primary/10">
+                  <div>
+                    <span className="text-white font-bold block mb-1">Available Weights</span>
+                    <span>{product.weight.join(", ")}</span>
+                  </div>
+                  <div>
+                    <span className="text-white font-bold block mb-1">Type</span>
+                    <span>{product.type}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {activeTab === "reviews" && (
+              <p className="text-gray-500 italic">Reviews coming soon.</p>
+            )}
+          </div>
         </div>
 
         {/* Related Products */}
         <div className="mt-32">
-            <h3 className="text-3xl font-bold text-center uppercase tracking-widest mb-16">Related Products</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {relatedProducts.map(p => (
-                    <ProductCard key={p.id} product={p} />
-                ))}
-            </div>
+          <h3 className="text-3xl font-bold text-center uppercase tracking-widest mb-16">Related Products</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {relatedProducts.map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
         </div>
 
       </section>

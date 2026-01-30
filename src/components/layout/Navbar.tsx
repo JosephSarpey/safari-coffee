@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import NavbarSearch from "@/components/shared/GlobalSearch";
 
 const NavLinks = [
   { name: "Home", href: "/" },
@@ -35,6 +36,7 @@ const NavLinks = [
       { name: "Service", href: "/service" },
       { name: "Blog", href: "/blog" },
       { name: "Testimonial", href: "/testimonial" },
+      { name: "FAQs", href: "/faq" },
     ]
   },
   { name: "Contact", href: "/contact" },
@@ -144,8 +146,10 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Desktop Right Actions (Auth & Cart) */}
-        <div className="hidden lg:flex items-center space-x-8">
+        {/* Desktop Right Actions (Search, Auth & Cart) */}
+        <div className="hidden lg:flex items-center space-x-6">
+          {/* Search */}
+          <NavbarSearch />
           {/* Join Us Link / Auth State */}
           {!pathname.includes("/join") && !pathname.includes("/signup") && !pathname.includes("/login") && (
             isAuthenticated ? (
@@ -198,8 +202,10 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Toggle & Cart */}
-        <div className="lg:hidden flex items-center space-x-4 z-50">
+        {/* Mobile Toggle, Search & Cart */}
+        <div className="lg:hidden flex items-center space-x-2 z-50">
+          {/* Mobile Search Icon */}
+          <NavbarSearch />
           <Link href="/cart" className="relative">
             <ShoppingBag className="text-white h-6 w-6" />
             {isMounted && totalItems > 0 && (

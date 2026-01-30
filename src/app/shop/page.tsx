@@ -37,7 +37,7 @@ export default function ShopPage() {
 
   return (
     <div className="bg-zinc-950 min-h-screen">
-      <PageHeader title="Online Shop" subtitle="Shop" />
+      <PageHeader title="Our Catalog" subtitle="Shop" />
 
       <section className="section-padding container">
         <div className="mb-10 max-w-md mx-auto">

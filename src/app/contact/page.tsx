@@ -30,7 +30,7 @@ export default function ContactPage() {
                     <MapPin className="h-4 w-4" />
                     <span className="text-[10px] uppercase font-black tracking-widest">Address</span>
                   </div>
-                  <p className="text-sm text-gray-500">203 Fake St. Mountain View, San Francisco, California, USA</p>
+                  <p className="text-sm text-gray-500">2389 Main Street Ste 100, Glastonbury, Hartford County, CT 06033, United States</p>
                 </div>
 
                 <div className="space-y-2">
@@ -38,7 +38,7 @@ export default function ContactPage() {
                     <Phone className="h-4 w-4" />
                     <span className="text-[10px] uppercase font-black tracking-widest">Phone</span>
                   </div>
-                  <p className="text-sm text-gray-500">+2 392 3929 210</p>
+                  <p className="text-sm text-gray-500">+1 8602643330</p>
                 </div>
 
                 <div className="space-y-2">
@@ -46,7 +46,7 @@ export default function ContactPage() {
                     <Mail className="h-4 w-4" />
                     <span className="text-[10px] uppercase font-black tracking-widest">Email</span>
                   </div>
-                  <p className="text-sm text-gray-500">info@safaricoffee.com</p>
+                  <p className="text-sm text-gray-500">everaingroup@gmail.com</p>
                 </div>
 
                 <div className="space-y-2">
@@ -65,14 +65,18 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Placeholder */}
-      <section className="h-[400px] w-full bg-zinc-900 relative grayscale contrast-[1.2] invert opacity-50">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-4">
-            <MapPin className="h-12 w-12 text-primary mx-auto animate-bounce" />
-            <span className="text-xs uppercase font-black tracking-widest text-primary">Map Section Placeholder</span>
-          </div>
-        </div>
+      {/* Google Map */}
+      <section className="h-[400px] w-full bg-zinc-900 relative">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.5882661877037!2d-72.60891542346475!3d41.71461437185347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e65416b6e45b4f%3A0x7a3c8c6e7c9b9c9a!2s2389%20Main%20St%20%23100%2C%20Glastonbury%2C%20CT%2006033%2C%20USA!5e0!3m2!1sen!2sin!4v1705987200000!5m2!1sen!2sin"
+          width="100%"
+          height="100%"
+          style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(90%)' }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Safari Roast Location"
+        />
       </section>
     </div>
   );

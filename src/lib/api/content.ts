@@ -9,7 +9,8 @@ function mapProduct(item: any): Product {
         weight: item.weight || [], 
         type: item.type || 'Beans', 
         category: item.category || 'Gourmet', 
-        roast: item.roast || 'Medium', 
+        roast: item.roast || 'Medium',
+        additionalInfo: item.additionalInfo || undefined,
     };
 }
 

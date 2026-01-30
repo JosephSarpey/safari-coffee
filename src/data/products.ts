@@ -10,6 +10,7 @@ export interface Product {
   origin: string;
   weight: string[];
   type: string;
+  additionalInfo?: string;
 }
 
 export const products: Product[] = [
@@ -24,7 +25,8 @@ export const products: Product[] = [
     profile: ["Fruity", "Floral", "Wine like"],
     origin: "Kenya",
     weight: ["200g", "250g", "100g"],
-    type: "Beans"
+    type: "Beans",
+    additionalInfo: "Brewing Tips: Best enjoyed with pour-over or French press methods. Use water at 92-96°C for optimal extraction.\n\nStorage: Store in a cool, dry place away from direct sunlight. Best consumed within 4 weeks of roasting.\n\nCertifications: 100% Organic, Rainforest Alliance Certified."
   },
   {
     id: "artisan-kenya",
@@ -37,7 +39,8 @@ export const products: Product[] = [
     profile: ["Fruity", "Citrus", "Spice"],
     origin: "Kenya",
     weight: ["200g", "100g"],
-    type: "Both"
+    type: "Both",
+    additionalInfo: "Brewing Tips: Perfect for espresso or AeroPress. Grind finely for espresso, medium-fine for AeroPress.\n\nStorage: Keep beans sealed in an airtight container. Freeze for long-term storage (up to 3 months).\n\nCertifications: Fair Trade Certified, Single Origin."
   },
   {
     id: "rich-brew-kenya",
@@ -50,6 +53,7 @@ export const products: Product[] = [
     profile: ["Fruity", "Acidic"],
     origin: "Kenya",
     weight: ["250g", "500g", "100g"],
-    type: "Both"
+    type: "Both",
+    additionalInfo: "Brewing Tips: Ideal for drip coffee makers and cold brew. Coarse grind recommended for cold brew (12-24 hour steep).\n\nStorage: Best stored at room temperature. Avoid refrigerator to prevent moisture absorption.\n\nCertifications: Sustainably Sourced, SCA Quality Grade."
   }
 ];

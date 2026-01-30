@@ -50,10 +50,11 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-white font-semibold uppercase tracking-widest text-sm">Quick Links</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/applications" className="hover:text-primary transition-colors">Applications</Link></li>
-            <li><Link href="/about" className="hover:text-primary transition-colors">Our Story</Link></li>
-            <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
-            <li><Link href="/reservation" className="hover:text-primary transition-colors">Reservations</Link></li>
+            <li><Link href="/applications" className="hover:text-primary transition-colors">Our Coffee's Uses</Link></li>
+            <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+            <li><Link href="/contact" className="hover:text-primary transition-colors">Get in Touch</Link></li>
+            <li><Link href="/faq" className="hover:text-primary transition-colors">FAQs</Link></li>
+            <li><Link href="/shop" className="hover:text-primary transition-colors">Shop</Link></li>
           </ul>
         </div>
 
@@ -71,18 +72,36 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-white font-semibold uppercase tracking-widest text-sm">Contact Us</h4>
           <div className="space-y-3 text-sm">
-            <div className="flex items-center space-x-3">
-              <MapPin className="h-4 w-4 text-primary" />
-              <span>203 Fake St. Mountain View, San Francisco, California, USA</span>
-            </div>
-            <div className="flex items-center space-x-3">
+            <a
+              href="https://maps.app.goo.gl/938rYurKoFEtNGMx9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start space-x-3 hover:text-primary transition-colors"
+            >
+              <MapPin className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+              <span className="leading-relaxed">
+                Safari Roast Distributors,<br />
+                2389 Main Street, Ste 100,<br />
+                Glastonbury, CT 06033,<br />
+                United States
+              </span>
+            </a>
+            <a
+              href="tel:+18602643330"
+              className="flex items-center space-x-3 hover:text-primary transition-colors"
+            >
               <Phone className="h-4 w-4 text-primary" />
-              <span>+2 392 3929 210</span>
-            </div>
-            <div className="flex items-center space-x-3">
+              <span>+1 8602643330</span>
+            </a>
+            <a
+              href="mailto:info@safaricoffee.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 hover:text-primary transition-colors"
+            >
               <Mail className="h-4 w-4 text-primary" />
-              <span>info@safaricoffee.com</span>
-            </div>
+              <span>everaingroup@gmail.com</span>
+            </a>
           </div>
         </div>
       </div>

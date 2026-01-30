@@ -26,13 +26,6 @@ export default function ContactForm() {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    // Formspree specific fields
-    // _subject: The subject of the email
-    // _replyto: The email to reply to (Formspree usually picks up 'email' automatically, but explicit is good)
-
-    // We can map the 'subject' input to '_subject' if we want the email subject to match.
-    // If the input is named 'subject', Formspree considers it a field.
-    // If we append '_subject', Formspree uses it as the metadata subject.
     const subject = formData.get("subject") as string;
     if (subject) {
       formData.append("_subject", `New Contact: ${subject}`);
@@ -53,7 +46,6 @@ export default function ContactForm() {
         setIsSuccess(true);
         localStorage.setItem("lastContactSubmission", Date.now().toString());
 
-        // Reset after showing success message
         setTimeout(() => {
           setIsSuccess(false);
           form.reset();
@@ -75,15 +67,15 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-black p-12 md:p-16 h-full flex flex-col justify-center">
+    <div className="bg-black p-6 sm:p-10 md:p-12 lg:p-16 h-full flex flex-col justify-center">
       {isSuccess ? (
         <div className="flex flex-col items-center justify-center text-center space-y-6 animate-in fade-in slide-in-from-bottom-4">
-          <div className="h-20 w-20 bg-primary/20 rounded-full flex items-center justify-center">
-            <Check className="h-10 w-10 text-primary" />
+          <div className="h-16 w-16 sm:h-20 sm:w-20 bg-primary/20 rounded-full flex items-center justify-center">
+            <Check className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-2xl font-black uppercase tracking-widest text-white">Message Sent!</h3>
-            <p className="text-gray-400">Thank you for contacting Safari Roast. We'll get back to you shortly.</p>
+            <h3 className="text-xl sm:text-2xl font-black uppercase tracking-widest text-white">Message Sent!</h3>
+            <p className="text-gray-400 text-sm sm:text-base">Thank you for contacting Safari Roast. We'll get back to you shortly.</p>
           </div>
           <button
             onClick={() => setIsSuccess(false)}
@@ -93,17 +85,17 @@ export default function ContactForm() {
           </button>
         </div>
       ) : (
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <h3 className="text-2xl font-black uppercase tracking-widest text-white mb-6">Send a Message</h3>
+            <h3 className="text-xl sm:text-2xl font-black uppercase tracking-widest text-white mb-4 sm:mb-6">Send a Message</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <input
               required
               name="name"
               type="text"
               placeholder="Your Name"
-              className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
+              className="w-full bg-zinc-900 border border-primary/10 px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
               disabled={isSubmitting}
             />
             <input
@@ -111,7 +103,7 @@ export default function ContactForm() {
               name="email"
               type="email"
               placeholder="Your Email"
-              className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
+              className="w-full bg-zinc-900 border border-primary/10 px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
               disabled={isSubmitting}
             />
           </div>
@@ -120,21 +112,21 @@ export default function ContactForm() {
             name="subject"
             type="text"
             placeholder="Subject"
-            className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
+            className="w-full bg-zinc-900 border border-primary/10 px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base text-white outline-none focus:border-primary transition-colors disabled:opacity-50"
             disabled={isSubmitting}
           />
           <textarea
             required
             name="message"
-            rows={5}
+            rows={4}
             placeholder="Message"
-            className="w-full bg-zinc-900 border border-primary/10 px-6 py-4 text-white outline-none focus:border-primary transition-colors resize-none disabled:opacity-50"
+            className="w-full bg-zinc-900 border border-primary/10 px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base text-white outline-none focus:border-primary transition-colors resize-none disabled:opacity-50"
             disabled={isSubmitting}
           ></textarea>
 
           <button
             type="submit"
-            className="btn-primary w-full py-5 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="btn-primary w-full py-4 sm:py-5 text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
             {isSubmitting ? (

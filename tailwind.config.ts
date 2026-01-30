@@ -15,8 +15,9 @@ const config: Config = {
         accent: "#e4d3c1",
       },
       fontFamily: {
-        josefin: ["Josefin Sans", "sans-serif"],
-        nothing: ["Nothing You Could Do", "cursive"],
+        josefin: ["var(--font-josefin)", "sans-serif"],
+        nothing: ["var(--font-nothing)", "cursive"],
+        "great-vibes": ["var(--font-great-vibes)", "cursive"],
       },
     },
   },

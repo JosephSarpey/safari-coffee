@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
@@ -50,11 +51,17 @@ export default function Hero() {
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === current ? "opacity-100" : "opacity-0"
             }`}
         >
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
-            style={{ backgroundImage: `url('${slide.image}')` }}
-          />
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              fill
+              priority={index === 0}
+              className="object-cover transition-transform duration-[10s] hover:scale-110"
+              sizes="100vw"
+            />
+          </div>
+          <div className="absolute inset-0 bg-black/70 z-10" />
         </div>
       ))}
 

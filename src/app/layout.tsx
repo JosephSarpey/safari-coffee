@@ -1,15 +1,36 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Josefin_Sans, Nothing_You_Could_Do, Great_Vibes } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import CookieConsent from "@/components/layout/CookieConsent";
-import ChatWidget from "@/components/shared/ChatWidget";
 import { Toaster } from "sonner";
+import ClientFeatures from "@/components/layout/ClientFeatures";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-josefin",
+  display: "swap",
+});
+
+const nothing = Nothing_You_Could_Do({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-nothing",
+  display: "swap",
+});
+
+const greatVibes = Great_Vibes({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-great-vibes",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://safari-roast.com"),
   title: {
     default: "Safari Roast | Awaken the Explorer",
     template: "%s | Safari Roast",
@@ -52,12 +73,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${josefin.variable} ${nothing.variable} ${greatVibes.variable}`}>
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <CookieConsent />
-        <ChatWidget />
+        <ClientFeatures />
         <Toaster position="top-center" richColors />
       </body>
     </html >

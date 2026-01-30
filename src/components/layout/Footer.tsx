@@ -73,6 +73,22 @@ export default function Footer() {
           <h4 className="text-white font-semibold uppercase tracking-widest text-sm">Contact Us</h4>
           <div className="space-y-3 text-sm">
             <a
+              href="tel:+18602643330"
+              className="flex items-center space-x-3 hover:text-primary transition-colors"
+            >
+              <Phone className="h-4 w-4 text-primary" />
+              <span>+1 8602643330</span>
+            </a>
+            <a
+              href="mailto:everaingroup@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-3 hover:text-primary transition-colors"
+            >
+              <Mail className="h-4 w-4 text-primary" />
+              <span>everaingroup@gmail.com</span>
+            </a>
+            <a
               href="https://maps.app.goo.gl/938rYurKoFEtNGMx9"
               target="_blank"
               rel="noopener noreferrer"
@@ -86,22 +102,6 @@ export default function Footer() {
                 United States
               </span>
             </a>
-            <a
-              href="tel:+18602643330"
-              className="flex items-center space-x-3 hover:text-primary transition-colors"
-            >
-              <Phone className="h-4 w-4 text-primary" />
-              <span>+1 8602643330</span>
-            </a>
-            <a
-              href="mailto:info@safaricoffee.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-3 hover:text-primary transition-colors"
-            >
-              <Mail className="h-4 w-4 text-primary" />
-              <span>everaingroup@gmail.com</span>
-            </a>
           </div>
         </div>
       </div>
@@ -112,6 +112,17 @@ export default function Footer() {
           <span className="text-gray-600">|</span>
           <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
         </div>
+        <p className="mt-4 text-gray-500">
+          Developed by{" "}
+          <a
+            href="https://themegastechinc.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:text-white transition-colors font-medium"
+          >
+            THE MEGAS TECH INC.
+          </a>
+        </p>
       </div>
     </footer>
   );

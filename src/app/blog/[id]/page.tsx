@@ -10,6 +10,14 @@ import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
 export default function BlogDetailPage() {
     const params = useParams();
 
@@ -85,7 +93,7 @@ export default function BlogDetailPage() {
                         <div className="flex items-center space-x-4 text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-white/10 pb-8">
                             <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4 text-primary" />
-                                <span>{new Date(post.date).toLocaleDateString()}</span>
+                                <span>{formatDate(post.date)}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <User className="h-4 w-4 text-primary" />
@@ -150,7 +158,7 @@ export default function BlogDetailPage() {
                                             <div className="flex items-center gap-4 text-[10px] text-gray-500 uppercase font-bold tracking-wider">
                                                 <div className="flex items-center gap-1">
                                                     <Calendar className="h-3 w-3" />
-                                                    <span>{new Date(post.date).toLocaleDateString()}</span>
+                                                    <span>{formatDate(post.date)}</span>
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     <User className="h-3 w-3" />

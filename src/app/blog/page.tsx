@@ -9,6 +9,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
 export default function BlogPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
@@ -56,7 +64,7 @@ export default function BlogPage() {
                                         <div className="flex items-center space-x-4 text-xs text-gray-400 uppercase tracking-widest font-bold">
                                             <div className="flex items-center gap-1">
                                                 <Calendar className="h-3 w-3 text-primary" />
-                                                <span>{new Date(post.date).toLocaleDateString()}</span>
+                                                <span>{formatDate(post.date)}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <User className="h-3 w-3 text-primary" />

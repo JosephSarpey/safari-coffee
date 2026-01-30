@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://safaricoffee.com",
+    url: "https://safari-roast.com",
     siteName: "Safari Roast",
     title: "Safari Roast | Awaken the Explorer",
     description: "Experience the best 100% single-origin Kenya coffee.",

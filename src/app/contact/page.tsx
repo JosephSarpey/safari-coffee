@@ -7,7 +7,7 @@ import ContactForm from "@/components/contact/ContactForm";
 export default function ContactPage() {
   return (
     <div className="bg-zinc-950 min-h-screen">
-      <PageHeader title="Contact Us" subtitle="Contact" backgroundImage="/images/safari_t_shirt.jpg" />
+      <PageHeader title="Contact Us" subtitle="Contact" backgroundImage="/images/bg_1.jpg" />
 
       <section className="section-padding">
         <div className="container overflow-hidden">
@@ -54,7 +54,7 @@ export default function ContactPage() {
                     <Globe className="h-4 w-4" />
                     <span className="text-[10px] uppercase font-black tracking-widest">Website</span>
                   </div>
-                  <p className="text-sm text-gray-500">yoursite.com</p>
+                  <a href="https://safari-roast.com" className="text-sm text-gray-500">safari-roast.com</a>
                 </div>
               </div>
             </div>

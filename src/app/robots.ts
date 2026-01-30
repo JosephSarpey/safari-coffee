@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin", "/private"],
     },
-    sitemap: "https://safaricoffee.com/sitemap.xml", // To be replaced with actual domain
+    sitemap: "https://safari-roast.com/sitemap.xml",
   };
 }

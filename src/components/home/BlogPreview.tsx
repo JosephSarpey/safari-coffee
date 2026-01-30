@@ -9,6 +9,15 @@ import { Calendar, User, MessageCircle } from "lucide-react";
 import { BlogPost } from "@/data/blog-posts";
 import { contentApi } from "@/lib/api/content";
 
+function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+}
+
 export default function BlogPreview() {
     const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
@@ -125,7 +134,7 @@ export default function BlogPreview() {
                                 <div className="flex items-center space-x-4 text-xs text-gray-400 uppercase tracking-widest font-bold">
                                     <div className="flex items-center gap-1">
                                         <Calendar className="h-3 w-3 text-primary" />
-                                        <span>{post.date}</span>
+                                        <span>{formatDate(post.date)}</span>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <User className="h-3 w-3 text-primary" />

@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "sonner";
 import ClientFeatures from "@/components/layout/ClientFeatures";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,7 +63,12 @@ export const metadata: Metadata = {
     images: ["/images/safari_image_1.jpeg"],
   },
   icons: {
-    icon: "/images/logo_1.png",
+    icon: [
+      { url: "/images/logo_new.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo_new.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/images/logo_new.png",
+    apple: "/images/logo_new.png",
   },
   robots: {
     index: true,
@@ -93,6 +99,7 @@ export default function RootLayout({
         <Footer />
         <ClientFeatures />
         <Toaster position="top-center" richColors />
+        <Analytics />
       </body>
     </html >
   );

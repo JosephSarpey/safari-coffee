@@ -31,14 +31,7 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
       ...options.headers,
     },
   };
-
-  if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('access_token');
-      if (token) {
-          (config.headers as any)['Authorization'] = `Bearer ${token}`;
-      }
-  }
-
+  
   try {
     const response = await fetch(url, config);
     
@@ -82,7 +75,7 @@ export async function fetchClient<T = any>(endpoint: string, options: FetchOptio
     
     console.error(`[API] Network or unknown error on ${endpoint}:`, error);
     
-    // Improve generic "faled to fetch" message
+    
     if (error.message === 'Failed to fetch') {
        throw new Error('Internal server error occurred. Please check your connection or try again later.'); 
     }

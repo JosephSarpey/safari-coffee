@@ -66,12 +66,9 @@ export default function LoginPage() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleLoginSuccess = (user: any, access_token: string) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    if (access_token) {
-      localStorage.setItem('access_token', access_token);
-    }
-
+  const handleLoginSuccess = (user: any, access_token?: string) => {
+    // Token is now handled via httpOnly cookies set by the backend
+    // Just update the auth store with user data
     useAuthStore.getState().login(user);
 
     if (user.role === 'COMPANY') {

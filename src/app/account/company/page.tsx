@@ -5,8 +5,9 @@ import { Building2, Mail, MapPin, Package, FileText, Settings, Users, Loader2, G
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { userApi, UserProfile } from "@/lib/api/user";
+import { useAuthStore } from "@/store/auth-store";
 
 // Mock bulk orders can stay until backend is integrated
 const mockBulkOrders = [
@@ -37,21 +38,15 @@ function CompanyAccountPageContent() {
   const [company, setCompany] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
   const router = useRouter();
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem('access_token', token);
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, '', newUrl);
-    }
-
     const loadProfile = async () => {
       try {
+        // Auth is handled via httpOnly cookies - no need for token in URL
         const data = await userApi.getProfile();
         setCompany(data);
+        useAuthStore.getState().login(data); // Sync global store
       } catch (error: any) {
         console.error("Failed to load profile", error);
         setError(error.message || 'Failed to load profile');
@@ -61,7 +56,7 @@ function CompanyAccountPageContent() {
     };
 
     loadProfile();
-  }, [token]);
+  }, []);
 
   if (loading) {
     return (

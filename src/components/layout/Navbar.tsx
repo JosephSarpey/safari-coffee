@@ -73,13 +73,19 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Sync auth state
+    // Sync auth state - only if not already authenticated
     const checkAuth = async () => {
+      // Skip if already authenticated in store
+      if (useAuthStore.getState().isAuthenticated) {
+        return;
+      }
+
       try {
         const user = await userApi.getProfile();
         useAuthStore.getState().login(user);
       } catch (error) {
-        console.error("Failed to check auth state", error);
+        // User is not authenticated - this is expected for guests
+        // Don't log as error, just silently handle
       }
     };
     checkAuth();

@@ -17,8 +17,8 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: false,
             login: (user) => set({ user, isAuthenticated: true }),
             logout: () => {
+                // Token is now managed via httpOnly cookies (cleared by backend logout endpoint)
                 localStorage.removeItem('user'); // Clean up legacy manual storage just in case
-                localStorage.removeItem('access_token');
                 set({ user: null, isAuthenticated: false });
             },
             updateUser: (updatedUser) => set((state) => ({

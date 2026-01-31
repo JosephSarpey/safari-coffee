@@ -11,10 +11,18 @@ import { useAuthStore } from "@/store/auth-store";
 import Image from "next/image";
 
 export function AccountNavbar() {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const storeUser = useAuthStore((state) => state.user);
+  const [user, setUser] = useState<UserProfile | null>(storeUser);
   const router = useRouter();
 
   useEffect(() => {
+    // If we already have user data in the store, use it
+    if (storeUser) {
+      setUser(storeUser);
+      return;
+    }
+
+    // Otherwise, fetch profile (cookie handles auth)
     const loadProfile = async () => {
       try {
         const data = await userApi.getProfile();
@@ -22,10 +30,12 @@ export function AccountNavbar() {
         useAuthStore.getState().login(data); // Sync global store
       } catch (error) {
         console.error("Failed to load profile in navbar", error);
+        // User is not authenticated, redirect to login
+        router.push('/login');
       }
     };
     loadProfile();
-  }, []);
+  }, [storeUser, router]);
 
   const handleLogout = async () => {
     try {

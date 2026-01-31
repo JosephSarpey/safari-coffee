@@ -1,5 +1,7 @@
 import { fetchClient } from './client';
 import { Address } from './user';
+export type { Address };
+
 
 export interface CreateAddressData {
   street: string;

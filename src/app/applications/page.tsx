@@ -1,4 +1,7 @@
 import { contentApi } from "@/lib/api/content";
+
+export const dynamic = 'force-dynamic';
+
 import { applicationItems } from "@/data/menu-items";
 import ProductCard from "@/components/shared/ProductCard";
 import PageHeader from "@/components/shared/PageHeader";

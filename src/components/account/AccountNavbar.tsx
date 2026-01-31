@@ -8,12 +8,19 @@ import { useEffect, useState } from "react";
 import { userApi, UserProfile } from "@/lib/api/user";
 import { authApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/store/auth-store";
+import { useCartStore } from "@/store/cart-store";
 import Image from "next/image";
 
 export function AccountNavbar() {
   const storeUser = useAuthStore((state) => state.user);
   const [user, setUser] = useState<UserProfile | null>(storeUser);
   const router = useRouter();
+  const totalItems = useCartStore((state) => state.totalItems());
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     // If we already have user data in the store, use it
@@ -73,9 +80,18 @@ export function AccountNavbar() {
           <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
 
+        <Link href="/cart" className="p-2 text-stone-400 hover:text-primary hover:bg-white/5 rounded-full transition-colors relative">
+          <ShoppingBag className="w-5 h-5" />
+          {isMounted && totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 bg-primary text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+
         <div className="h-8 w-[1px] bg-white/10 mx-2 hidden md:block"></div>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <div className="hidden md:block text-right">
             <p className="text-sm font-medium text-white">
               {user ? (user.companyName || user.name) : 'Loading...'}

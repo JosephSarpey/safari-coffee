@@ -1,4 +1,3 @@
-// Use relative path on client to leverage Next.js rewrites (prevents cross-origin cookie issues)
 export const API_BASE_URL = typeof window !== 'undefined' 
   ? '' 
   : (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000');

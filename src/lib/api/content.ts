@@ -11,6 +11,8 @@ function mapProduct(item: any): Product {
         category: item.category || 'Gourmet', 
         roast: item.roast || 'Medium',
         additionalInfo: item.additionalInfo || undefined,
+        stock: item.stock || 0,
+        status: item.status || 'In Stock',
     };
 }
 
@@ -43,5 +45,12 @@ export const contentApi = {
   getProduct: async (id: string): Promise<Product> => {
     const data = await fetchClient<any>(`/products/${id}`);
     return mapProduct(data);
+  },
+
+  checkStock: async (productId: string, quantity: number): Promise<{ available: boolean; stock: number; message: string }> => {
+    return fetchClient('/admin/products/check-stock', {
+      method: 'POST',
+      body: JSON.stringify({ productId, quantity }),
+    });
   }
 };

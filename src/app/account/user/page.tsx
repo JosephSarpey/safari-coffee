@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { userApi, UserProfile } from "@/lib/api/user";
+import { orderApi, Order } from "@/lib/api/order";
 import { useAuthStore } from "@/store/auth-store";
 
 // Mock orders can stay for now until order API is ready
@@ -37,6 +38,7 @@ const mockOrders = [
 
 export default function UserAccountPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -48,6 +50,10 @@ export default function UserAccountPage() {
         const data = await userApi.getProfile();
         setUser(data);
         useAuthStore.getState().login(data); // Sync global store
+
+        // Load orders
+        const userOrders = await orderApi.getUserOrders();
+        setOrders(userOrders);
       } catch (error: any) {
         console.error("Failed to load profile", error);
         setError(error.message || 'Failed to load profile');
@@ -118,25 +124,17 @@ export default function UserAccountPage() {
         </div>
 
         {/* Stats / Quick Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
             <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
               <Package className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-stone-400">Total Orders</p>
-              <p className="text-2xl font-bold text-white">12</p>
+              <p className="text-2xl font-bold text-white">{orders.length}</p>
             </div>
           </div>
-          <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
-            <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
-              <CreditCard className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-sm text-stone-400">Saved Cards</p>
-              <p className="text-2xl font-bold text-white">2</p>
-            </div>
-          </div>
+
           <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
             <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
               <Clock className="w-6 h-6" />
@@ -198,12 +196,14 @@ export default function UserAccountPage() {
                     </tr>
                   </thead>
                   <tbody className="text-sm">
-                    {mockOrders.map((order) => (
+                    {orders.slice(0, 3).map((order) => (
                       <tr key={order.id} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
-                        <td className="py-4 font-medium text-white">{order.id}</td>
-                        <td className="py-4 text-stone-400">{order.date}</td>
-                        <td className="py-4 text-stone-400 max-w-xs truncate">{order.items.join(", ")}</td>
-                        <td className="py-4 font-medium text-[#c49b63]">{order.total}</td>
+                        <td className="py-4 font-medium text-white">{order.id.slice(0, 8)}...</td>
+                        <td className="py-4 text-stone-400">{new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                        <td className="py-4 text-stone-400 max-w-xs truncate">
+                          {order.items.map(item => item.product.name).join(", ")}
+                        </td>
+                        <td className="py-4 font-medium text-[#c49b63]">${order.total.toFixed(2)}</td>
                         <td className="py-4">
                           <span className={cn(
                             "px-2 py-1 rounded-full text-xs font-medium border",
@@ -215,6 +215,13 @@ export default function UserAccountPage() {
                         </td>
                       </tr>
                     ))}
+                    {orders.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="py-8 text-center text-stone-400">
+                          No orders yet. <Link href="/shop" className="text-[#c49b63] hover:underline">Start shopping</Link>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

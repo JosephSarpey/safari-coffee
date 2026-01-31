@@ -1,15 +1,5 @@
 import { fetchClient } from './client';
-
-export interface Address {
-  id: string;
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-  isDefault: boolean;
-  userId: string;
-}
+import { Address } from './user';
 
 export interface CreateAddressData {
   street: string;

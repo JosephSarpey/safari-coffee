@@ -5,7 +5,8 @@ import { Search, X, ShoppingBag, FileText, HelpCircle, ArrowRight } from "lucide
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { faqs } from "@/data/faqs-data";
-import { products } from "@/data/products";
+import { contentApi } from "@/lib/api/content";
+import { Product } from "@/data/products";
 
 interface SearchResult {
     type: "product" | "blog" | "faq" | "page";
@@ -27,13 +28,7 @@ const staticPages: SearchResult[] = [
     { type: "page", title: "Bulk Purchase", description: "Wholesale and bulk ordering", href: "/bulk-purchase" },
 ];
 
-// Convert products to search results
-const productResults: SearchResult[] = products.map((product) => ({
-    type: "product" as const,
-    title: product.name,
-    description: `${product.roast} Roast - ${product.description.slice(0, 60)}...`,
-    href: `/shop/${product.id}`,
-}));
+
 
 // Convert FAQs to search results
 const faqResults: SearchResult[] = faqs.flatMap((category) =>
@@ -50,15 +45,30 @@ export default function NavbarSearch() {
     const [isExpanded, setIsExpanded] = useState(false);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [products, setProducts] = useState<Product[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
 
     // Focus input when expanded
     useEffect(() => {
-        if (isExpanded && inputRef.current) {
-            setTimeout(() => inputRef.current?.focus(), 100);
+        if (isExpanded) {
+            if (inputRef.current) {
+                setTimeout(() => inputRef.current?.focus(), 100);
+            }
+            // Fetch products when search is opened if not already fetched
+            if (products.length === 0) {
+                const fetchProducts = async () => {
+                    try {
+                        const data = await contentApi.getProducts();
+                        setProducts(data);
+                    } catch (error) {
+                        console.error("Failed to fetch products for search", error);
+                    }
+                };
+                fetchProducts();
+            }
         }
-    }, [isExpanded]);
+    }, [isExpanded, products.length]);
 
     // Search logic
     useEffect(() => {
@@ -72,11 +82,17 @@ export default function NavbarSearch() {
 
         const timeout = setTimeout(() => {
             // Search products first (highest priority)
-            const productMatches = productResults.filter(
-                (product) =>
-                    product.title.toLowerCase().includes(searchTerm) ||
-                    product.description?.toLowerCase().includes(searchTerm)
-            );
+            const productMatches: SearchResult[] = products
+                .filter((product) =>
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
+                )
+                .map((product) => ({
+                    type: "product" as const,
+                    title: product.name,
+                    description: `${product.roast} Roast - ${product.description.slice(0, 60)}...`,
+                    href: `/shop/${product.id}`,
+                }));
 
             const pageMatches = staticPages.filter(
                 (page) =>

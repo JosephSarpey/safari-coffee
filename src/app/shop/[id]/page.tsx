@@ -7,7 +7,7 @@ import { Product } from "@/data/products";
 import { contentApi } from "@/lib/api/content";
 import PageHeader from "@/components/shared/PageHeader";
 import { useCartStore } from "@/store/cart-store";
-import { Minus, Plus, ShoppingCart, Star, Loader2 } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Star, Loader2, AlertCircle, PackageX } from "lucide-react";
 import ProductCard from "@/components/shared/ProductCard";
 
 import { toast } from "sonner";
@@ -64,10 +64,38 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addItem(product);
+    const isOutOfStock = product.status === "Out of Stock" || product.stock === 0;
+
+    if (isOutOfStock) {
+      toast.error("This product is out of stock");
+      return;
     }
-    toast.success(`${product.name} added to cart`);
+
+    // Check if requested quantity exceeds available stock
+    if (quantity > product.stock) {
+      toast.error(`Only ${product.stock} items available in stock`);
+      return;
+    }
+
+    // Add items to cart with stock validation
+    let successCount = 0;
+    for (let i = 0; i < quantity; i++) {
+      const result = addItem(product, product.stock);
+      if (result.success) {
+        successCount++;
+      } else {
+        if (i === 0) {
+          // If first item fails, show error
+          toast.error(result.message || "Cannot add to cart");
+        } else {
+          // If some items were added, show partial success
+          toast.warning(`Added ${successCount} items. ${result.message}`);
+        }
+        return;
+      }
+    }
+
+    toast.success(`${quantity} × ${product.name} added to cart`);
   };
 
   return (
@@ -111,6 +139,25 @@ export default function ProductDetailPage() {
               <p className="text-gray-400 leading-relaxed font-light">
                 {product.description}
               </p>
+
+              {/* Stock Status */}
+              <div className="flex items-center gap-2 pt-2">
+                {product.status === "Out of Stock" || product.stock === 0 ? (
+                  <div className="flex items-center gap-2 text-red-400">
+                    <PackageX className="h-5 w-5" />
+                    <span className="font-semibold">Out of Stock</span>
+                  </div>
+                ) : product.status === "Low Stock" ? (
+                  <div className="flex items-center gap-2 text-amber-400">
+                    <AlertCircle className="h-5 w-5" />
+                    <span className="font-semibold">Low Stock - Only {product.stock} left</span>
+                  </div>
+                ) : (
+                  <div className="text-green-400">
+                    <span className="font-semibold">In Stock - {product.stock} available</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Add to Cart */}
@@ -119,6 +166,7 @@ export default function ProductDetailPage() {
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="p-4 hover:text-primary transition-colors border-r border-primary/30"
+                  disabled={product.stock === 0}
                 >
                   <Minus className="h-4 w-4" />
                 </button>
@@ -126,18 +174,27 @@ export default function ProductDetailPage() {
                   {quantity}
                 </span>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => {
+                    if (quantity < product.stock) {
+                      setQuantity(quantity + 1);
+                    } else {
+                      toast.warning(`Only ${product.stock} items available`);
+                    }
+                  }}
                   className="p-4 hover:text-primary transition-colors border-l border-primary/30"
+                  disabled={product.stock === 0 || quantity >= product.stock}
                 >
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
               <button
                 onClick={handleAddToCart}
-                className="btn-primary flex-1 py-4 text-center justify-center flex items-center gap-2 text-base font-bold"
+                disabled={product.stock === 0}
+                className={`btn-primary flex-1 py-4 text-center justify-center flex items-center gap-2 text-base font-bold ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
               >
                 <ShoppingCart className="h-5 w-5" />
-                Add to Cart
+                {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
             </div>
 

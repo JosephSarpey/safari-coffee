@@ -1,11 +1,13 @@
-import { products } from "@/data/products";
+import { contentApi } from "@/lib/api/content";
 import { applicationItems } from "@/data/menu-items";
 import ProductCard from "@/components/shared/ProductCard";
 import PageHeader from "@/components/shared/PageHeader";
 
 import MenuList from "@/components/menu/MenuList";
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const products = await contentApi.getProducts();
+
   return (
     <div className="bg-zinc-950 min-h-screen">
       <PageHeader title="Our Applications" subtitle="Applications" backgroundImage="/images/safari_image_1.jpeg" />
@@ -22,6 +24,7 @@ export default function MenuPage() {
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+
           </div>
         </div>
       </section>

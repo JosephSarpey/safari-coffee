@@ -30,8 +30,8 @@ export default function CartPage() {
           </div>
           <h2 className="text-3xl font-bold uppercase tracking-widest">Your cart is empty</h2>
           <p className="text-gray-400">Looks like you haven't added any coffee yet.</p>
-          <Link href="/menu" className="btn-primary">
-            Explore Menu
+          <Link href="/shop" className="btn-primary">
+            Explore Products
           </Link>
         </section>
       </div>
@@ -41,34 +41,34 @@ export default function CartPage() {
   return (
     <div className="bg-zinc-950 min-h-screen">
       <PageHeader title="Your Cart" subtitle="Cart" />
-      
+
       <section className="section-padding">
         <div className="container lg:grid lg:grid-cols-3 lg:gap-16">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex justify-between items-end pb-4 border-b border-primary/20 mb-6">
-               <h3 className="text-xl font-bold uppercase tracking-widest text-white">Cart Items <span className="text-primary">({items.length})</span></h3>
-               <AlertDialog>
-                 <AlertDialogTrigger asChild>
-                   <button 
-                      className="text-red-500 hover:text-white text-xs uppercase font-bold tracking-widest flex items-center gap-2 transition-colors"
-                    >
-                      <Trash2 className="h-4 w-4" /> Clear Cart
-                   </button>
-                 </AlertDialogTrigger>
-                 <AlertDialogContent className="bg-zinc-900 border-primary/20 text-white">
-                   <AlertDialogHeader>
-                     <AlertDialogTitle>Clear Cart?</AlertDialogTitle>
-                     <AlertDialogDescription className="text-gray-400">
-                       Are you sure you want to remove all items from your cart? This action cannot be undone.
-                     </AlertDialogDescription>
-                   </AlertDialogHeader>
-                   <AlertDialogFooter>
-                     <AlertDialogCancel className="bg-transparent text-white border-primary/20 hover:bg-white/10 hover:text-white">Cancel</AlertDialogCancel>
-                     <AlertDialogAction onClick={clearCart} className="bg-red-500 hover:bg-red-600 text-white border-none">Clear Cart</AlertDialogAction>
-                   </AlertDialogFooter>
-                 </AlertDialogContent>
-               </AlertDialog>
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white">Cart Items <span className="text-primary">({items.length})</span></h3>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button
+                    className="text-red-500 hover:text-white text-xs uppercase font-bold tracking-widest flex items-center gap-2 transition-colors"
+                  >
+                    <Trash2 className="h-4 w-4" /> Clear Cart
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-zinc-900 border-primary/20 text-white">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Clear Cart?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-gray-400">
+                      Are you sure you want to remove all items from your cart? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="bg-transparent text-white border-primary/20 hover:bg-white/10 hover:text-white">Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={clearCart} className="bg-red-500 hover:bg-red-600 text-white border-none">Clear Cart</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
 
             <div className="hidden md:grid grid-cols-5 pb-4 border-b border-primary/20 text-xs uppercase tracking-widest font-bold text-gray-500">
@@ -90,7 +90,7 @@ export default function CartPage() {
                     <p className="text-xs text-primary uppercase">{item.category}</p>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <button 
+                        <button
                           className="text-red-500 hover:text-red-400 text-xs flex items-center gap-1 pt-2"
                         >
                           <Trash2 className="h-3 w-3" /> Remove
@@ -120,14 +120,14 @@ export default function CartPage() {
                 {/* Quantity */}
                 <div className="flex items-center justify-center">
                   <div className="flex items-center border border-primary/30 rounded-none bg-black">
-                    <button 
+                    <button
                       onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                       className="p-2 hover:text-primary transition-colors border-r border-primary/30"
                     >
                       <Minus className="h-4 w-4" />
                     </button>
                     <span className="px-4 font-bold min-w-[40px] text-center">{item.quantity}</span>
-                    <button 
+                    <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       className="p-2 hover:text-primary transition-colors border-l border-primary/30"
                     >
@@ -162,11 +162,11 @@ export default function CartPage() {
                   <span className="text-primary text-3xl font-black">${totalPrice().toFixed(2)}</span>
                 </div>
               </div>
-              
+
               <Link href="/checkout" className="btn-primary w-full mt-10 text-center py-5 text-lg block">
                 Proceed to Checkout
               </Link>
-              
+
               <div className="mt-6 flex items-center justify-center space-x-4">
                 <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">VISA</div>
                 <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">MC</div>

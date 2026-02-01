@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import PageHeader from "@/components/shared/PageHeader";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { paymentApi } from "@/lib/api/payment";
 import { useCartStore } from "@/store/cart-store";
@@ -101,7 +101,7 @@ export default function CheckoutSuccessPage() {
                 <section className="section-padding container">
                     <div className="max-w-2xl mx-auto">
                         <div className="bg-zinc-900/50 p-10 border border-primary/10 text-center">
-                            <div className="animate-spin text-6xl mb-4">⏳</div>
+                            <Loader2 className="w-16 h-16 text-primary animate-spin mx-auto mb-4" />
                             <h2 className="text-2xl font-bold text-white mb-4">
                                 Creating Your Order...
                             </h2>

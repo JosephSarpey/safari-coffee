@@ -13,6 +13,7 @@ import { useAuthStore } from "@/store/auth-store";
 import { userApi, Address } from "@/lib/api/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { MapPin } from "lucide-react";
 
 export default function CheckoutPage() {
     const { items, totalPrice } = useCartStore();
@@ -221,7 +222,6 @@ export default function CheckoutPage() {
         );
     }
 
-    // Check if user has at least one address
     if (addresses.length === 0) {
         return (
             <div className="bg-zinc-950 min-h-screen">
@@ -230,7 +230,7 @@ export default function CheckoutPage() {
                     <div className="max-w-2xl mx-auto">
                         <div className="bg-zinc-900/50 p-10 border border-primary/10 text-center">
                             <div className="mb-8">
-                                <div className="text-6xl mb-4">📍</div>
+                                <MapPin className="text-6xl mb-4 text-primary mx-auto" />
                                 <h2 className="text-2xl font-bold text-white mb-4">
                                     Address Required
                                 </h2>

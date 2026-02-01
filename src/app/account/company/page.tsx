@@ -7,35 +7,14 @@ import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { userApi, UserProfile } from "@/lib/api/user";
+import { orderApi, Order } from "@/lib/api/order";
 import { useAuthStore } from "@/store/auth-store";
 
-// Mock bulk orders can stay until backend is integrated
-const mockBulkOrders = [
-  {
-    id: "BLK-2024-050",
-    date: "2024-03-10",
-    status: "Processing",
-    total: "$1,250.00",
-    items: "50kg Ethiopian Yirgacheffe",
-  },
-  {
-    id: "BLK-2024-042",
-    date: "2024-02-15",
-    status: "Delivered",
-    total: "$850.00",
-    items: "30kg Safari Blend",
-  },
-  {
-    id: "BLK-2024-035",
-    date: "2024-01-20",
-    status: "Delivered",
-    total: "$2,100.00",
-    items: "80kg Espresso Roast",
-  },
-];
+
 
 function CompanyAccountPageContent() {
   const [company, setCompany] = useState<UserProfile | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -45,8 +24,13 @@ function CompanyAccountPageContent() {
       try {
         // Auth is handled via httpOnly cookies - no need for token in URL
         const data = await userApi.getProfile();
+
         setCompany(data);
         useAuthStore.getState().login(data); // Sync global store
+
+        // Load orders
+        const companyOrders = await orderApi.getUserOrders();
+        setOrders(companyOrders);
       } catch (error: any) {
         console.error("Failed to load profile", error);
         setError(error.message || 'Failed to load profile');
@@ -121,8 +105,8 @@ function CompanyAccountPageContent() {
               <Package className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-stone-400">Active Orders</p>
-              <p className="text-2xl font-bold text-white">1</p>
+              <p className="text-sm text-stone-400">Total Orders</p>
+              <p className="text-2xl font-bold text-white">{orders.length}</p>
             </div>
           </div>
           <div className="bg-stone-900/60 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-white/5 flex items-center gap-4">
@@ -130,8 +114,10 @@ function CompanyAccountPageContent() {
               <FileText className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-stone-400">Invoices Due</p>
-              <p className="text-2xl font-bold text-white">0</p>
+              <p className="text-sm text-stone-400">Processing</p>
+              <p className="text-2xl font-bold text-white">
+                {orders.filter(o => o.status === 'Processing').length}
+              </p>
             </div>
           </div>
           <div className="bg-stone-900/60 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-white/5 flex items-center gap-4">
@@ -139,8 +125,10 @@ function CompanyAccountPageContent() {
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-stone-400">Team Members</p>
-              <p className="text-2xl font-bold text-white">3</p>
+              <p className="text-sm text-stone-400">Delivered</p>
+              <p className="text-2xl font-bold text-white">
+                {orders.filter(o => o.status === 'Delivered').length}
+              </p>
             </div>
           </div>
         </div>
@@ -198,12 +186,14 @@ function CompanyAccountPageContent() {
                     </tr>
                   </thead>
                   <tbody className="text-sm">
-                    {mockBulkOrders.map((order) => (
+                    {orders.slice(0, 5).map((order) => (
                       <tr key={order.id} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
-                        <td className="py-4 font-medium text-white">{order.id}</td>
-                        <td className="py-4 text-stone-400">{order.date}</td>
-                        <td className="py-4 text-stone-400">{order.items}</td>
-                        <td className="py-4 font-medium text-[#c49b63]">{order.total}</td>
+                        <td className="py-4 font-medium text-white">{order.id.slice(0, 8)}...</td>
+                        <td className="py-4 text-stone-400">{new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td className="py-4 text-stone-400 max-w-xs truncate">
+                          {order.items.map(item => item.product.name).join(", ")}
+                        </td>
+                        <td className="py-4 font-medium text-[#c49b63]">${order.total.toFixed(2)}</td>
                         <td className="py-4">
                           <span className={cn(
                             "px-2 py-1 rounded-full text-xs font-medium border",
@@ -215,6 +205,13 @@ function CompanyAccountPageContent() {
                         </td>
                       </tr>
                     ))}
+                    {orders.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="py-8 text-center text-stone-400">
+                          No orders found. <Link href="/shop" className="text-[#c49b63] hover:underline">Place your first bulk order</Link>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

@@ -167,10 +167,26 @@ export default function CartPage() {
                 Proceed to Checkout
               </Link>
 
-              <div className="mt-6 flex items-center justify-center space-x-4">
-                <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">VISA</div>
-                <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">MC</div>
-                <div className="h-8 w-12 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] font-bold">PAYPAL</div>
+              <div className="mt-6 flex flex-col items-center gap-4">
+                <div className="flex items-center justify-center space-x-4">
+                  <div className="h-8 w-12 relative bg-white/5 rounded border border-white/10 flex items-center justify-center overflow-hidden">
+                    <Image src="/images/visa.svg" alt="Visa" fill className="object-contain p-1" />
+                  </div>
+                  <div className="h-8 w-12 relative bg-white/5 rounded border border-white/10 flex items-center justify-center overflow-hidden">
+                    <Image src="/images/mastercard1.svg" alt="Mastercard" fill className="object-contain p-1" />
+                  </div>
+                  {/* <div className="h-8 w-12 relative bg-white/5 rounded border border-white/10 flex items-center justify-center overflow-hidden">
+                    <Image src="/images/paypal.svg" alt="PayPal" fill className="object-contain p-1" />
+                  </div> */}
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-zinc-500 opacity-60 hover:opacity-100 transition-opacity">
+                  <span>Powered by </span>
+                  <span className="font-bold text-white">STRIPE</span>
+                  <div className="h-6 w-12 relative">
+                    <Image src="/images/stripe.svg" alt="Stripe" fill className="object-contain" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

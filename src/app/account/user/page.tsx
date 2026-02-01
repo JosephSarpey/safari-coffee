@@ -11,30 +11,7 @@ import { userApi, UserProfile } from "@/lib/api/user";
 import { orderApi, Order } from "@/lib/api/order";
 import { useAuthStore } from "@/store/auth-store";
 
-// Mock orders can stay for now until order API is ready
-const mockOrders = [
-  {
-    id: "ORD-2024-001",
-    date: "2024-03-15",
-    status: "Delivered",
-    total: "$45.00",
-    items: ["Ethiopian Yirgacheffe (250g)", "Safari Blend (250g)"],
-  },
-  {
-    id: "ORD-2024-002",
-    date: "2024-02-28",
-    status: "Processing",
-    total: "$22.50",
-    items: ["Kenya AA (250g)"],
-  },
-  {
-    id: "ORD-2024-003",
-    date: "2024-01-10",
-    status: "Delivered",
-    total: "$68.00",
-    items: ["Espresso Roast (1kg)", "Ceramic Mug"],
-  },
-];
+
 
 export default function UserAccountPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -124,7 +101,7 @@ export default function UserAccountPage() {
         </div>
 
         {/* Stats / Quick Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
             <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
               <Package className="w-6 h-6" />
@@ -137,11 +114,25 @@ export default function UserAccountPage() {
 
           <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
             <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
+              <Loader2 className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-sm text-stone-400">Processing</p>
+              <p className="text-2xl font-bold text-white">
+                {orders.filter(o => o.status === 'Processing').length}
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#111] p-6 rounded-xl shadow-lg border border-white/10 flex items-center gap-4">
+            <div className="p-3 bg-[#c49b63]/10 rounded-lg text-[#c49b63]">
               <Clock className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm text-stone-400">Next Delivery</p>
-              <p className="text-2xl font-bold text-white">Apr 02</p>
+              <p className="text-sm text-stone-400">Delivered</p>
+              <p className="text-2xl font-bold text-white">
+                {orders.filter(o => o.status === 'Delivered').length}
+              </p>
             </div>
           </div>
         </div>

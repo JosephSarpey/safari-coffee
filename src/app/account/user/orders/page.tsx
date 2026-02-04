@@ -10,13 +10,17 @@ import { toast } from "sonner";
 export default function UserOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         setIsLoading(true);
-        const userOrders = await orderApi.getUserOrders();
-        setOrders(userOrders);
+        const response = await orderApi.getUserOrders(page, limit);
+        setOrders(response.data);
+        setTotalPages(response.meta.totalPages);
       } catch (error: any) {
         console.error("Error fetching orders:", error);
         toast.error("Failed to load orders");
@@ -26,7 +30,7 @@ export default function UserOrdersPage() {
     };
 
     fetchOrders();
-  }, []);
+  }, [page]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -70,78 +74,105 @@ export default function UserOrdersPage() {
               <p className="text-stone-400">Loading your orders...</p>
             </div>
           ) : orders.length > 0 ? (
-            <div className="p-6">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-stone-300">
-                  <thead>
-                    <tr className="border-b border-white/10 text-stone-500 text-sm">
-                      <th className="pb-3 font-medium">Order ID</th>
-                      <th className="pb-3 font-medium">Date</th>
-                      <th className="pb-3 font-medium">Items</th>
-                      <th className="pb-3 font-medium">Total</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium text-right">Payment</th>
-                      <th className="pb-3 font-medium text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-sm">
-                    {orders.map((order) => (
-                      <tr
-                        key={order.id}
-                        className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors"
-                      >
-                        <td className="py-4 font-medium text-white">
-                          #{order.id.slice(0, 8)}
-                        </td>
-                        <td className="py-4 text-stone-400">
-                          {formatDate(order.createdAt)}
-                        </td>
-                        <td className="py-4 text-stone-400 max-w-xs">
-                          <div className="truncate">
-                            {order.items.map((item) => item.product.name).join(", ")}
-                          </div>
-                          <div className="text-xs text-stone-500">
-                            {order.items.length} item{order.items.length > 1 ? "s" : ""}
-                          </div>
-                        </td>
-                        <td className="py-4 font-medium text-[#c49b63]">
-                          ${order.total.toFixed(2)}
-                        </td>
-                        <td className="py-4">
-                          <span
-                            className={cn(
-                              "px-2 py-1 rounded-full text-xs font-medium border",
-                              getStatusColor(order.status)
-                            )}
-                          >
-                            {order.status}
-                          </span>
-                        </td>
-                        <td className="py-4 text-right">
-                          <span
-                            className={cn(
-                              "px-2 py-1 rounded-full text-xs font-medium",
-                              order.paymentStatus === "succeeded"
-                                ? "text-green-400"
-                                : "text-amber-400"
-                            )}
-                          >
-                            {order.paymentStatus === "succeeded" ? "Paid" : order.paymentStatus}
-                          </span>
-                        </td>
-                        <td className="py-4 text-right">
-                          <Link
-                            href={`/account/user/orders/${order.id}`}
-                            className="text-[#c49b63] hover:text-white text-xs font-medium border border-[#c49b63]/30 hover:border-white/30 px-3 py-1.5 rounded-full transition-all inline-block"
-                          >
-                            View
-                          </Link>
-                        </td>
+            <div className="flex flex-col h-full">
+              <div className="p-6">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-stone-300">
+                    <thead>
+                      <tr className="border-b border-white/10 text-stone-500 text-sm">
+                        <th className="pb-3 font-medium">Order ID</th>
+                        <th className="pb-3 font-medium">Date</th>
+                        <th className="pb-3 font-medium">Items</th>
+                        <th className="pb-3 font-medium">Total</th>
+                        <th className="pb-3 font-medium">Status</th>
+                        <th className="pb-3 font-medium text-right">Payment</th>
+                        <th className="pb-3 font-medium text-right">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="text-sm">
+                      {orders.map((order) => (
+                        <tr
+                          key={order.id}
+                          className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors"
+                        >
+                          <td className="py-4 font-medium text-white">
+                            #{order.id.slice(0, 8)}
+                          </td>
+                          <td className="py-4 text-stone-400">
+                            {formatDate(order.createdAt)}
+                          </td>
+                          <td className="py-4 text-stone-400 max-w-xs">
+                            <div className="truncate">
+                              {order.items.map((item) => item.product.name).join(", ")}
+                            </div>
+                            <div className="text-xs text-stone-500">
+                              {order.items.length} item{order.items.length > 1 ? "s" : ""}
+                            </div>
+                          </td>
+                          <td className="py-4 font-medium text-[#c49b63]">
+                            ${order.total.toFixed(2)}
+                          </td>
+                          <td className="py-4">
+                            <span
+                              className={cn(
+                                "px-2 py-1 rounded-full text-xs font-medium border",
+                                getStatusColor(order.status)
+                              )}
+                            >
+                              {order.status}
+                            </span>
+                          </td>
+                          <td className="py-4 text-right">
+                            <span
+                              className={cn(
+                                "px-2 py-1 rounded-full text-xs font-medium",
+                                order.paymentStatus === "succeeded"
+                                  ? "text-green-400"
+                                  : "text-amber-400"
+                              )}
+                            >
+                              {order.paymentStatus === "succeeded" ? "Paid" : order.paymentStatus}
+                            </span>
+                          </td>
+                          <td className="py-4 text-right">
+                            <Link
+                              href={`/account/user/orders/${order.id}`}
+                              className="text-[#c49b63] hover:text-white text-xs font-medium border border-[#c49b63]/30 hover:border-white/30 px-3 py-1.5 rounded-full transition-all inline-block"
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="p-6 border-t border-white/10 flex items-center justify-between">
+                  <p className="text-sm text-stone-400">
+                    Page {page} of {totalPages}
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                      className="px-4 py-2 text-sm font-medium rounded-lg bg-white/5 text-stone-300 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={page === totalPages}
+                      className="px-4 py-2 text-sm font-medium rounded-lg bg-white/5 text-stone-300 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="p-12 text-center">

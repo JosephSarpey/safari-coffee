@@ -1,13 +1,15 @@
 "use client";
 
 
-import { User, Mail, Phone, MapPin, Lock, Bell, Save, Globe } from "lucide-react";
+import { User, Mail, Phone, MapPin, Lock, Bell, Save, Globe, Trash2, AlertTriangle } from "lucide-react";
 import { countries } from "@/data/countries";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { fetchClient } from "@/lib/api/client";
+import { useRouter } from "next/navigation";
 
 export default function UserSettingsPage() {
+    const router = useRouter();
     const [profile, setProfile] = useState({
         name: "",
         email: "",
@@ -82,6 +84,29 @@ export default function UserSettingsPage() {
         } catch (error: any) {
             toast.error(error.message || "Failed to update password");
         }
+    };
+
+    const handleDeleteAccount = () => {
+        toast.error("Delete Account?", {
+            description: "This will permanently delete your personal data. Orders and chat history will be anonymized. This action cannot be undone.",
+            action: {
+                label: "Delete",
+                onClick: async () => {
+                    try {
+                        await fetchClient("/user/delete", { method: "DELETE" });
+                        toast.success("Account deleted successfully");
+                        window.location.href = "/";
+                    } catch (error: any) {
+                        toast.error(error.message || "Failed to delete account");
+                    }
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                onClick: () => { }
+            },
+            duration: Infinity,
+        });
     };
 
 
@@ -281,6 +306,31 @@ export default function UserSettingsPage() {
                                 <input type="checkbox" className="sr-only peer" />
                                 <div className="w-11 h-6 bg-stone-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#c49b63] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#c49b63]"></div>
                             </label>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Danger Zone */}
+                <div className="bg-[#111] rounded-xl shadow-lg border border-red-900/30 overflow-hidden">
+                    <div className="p-6 border-b border-white/10">
+                        <h2 className="text-xl font-bold text-red-500 flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5" />
+                            Danger Zone
+                        </h2>
+                    </div>
+                    <div className="p-6 space-y-4">
+                        <div className="flex items-center justify-between p-4 bg-red-900/10 rounded-lg border border-red-900/20">
+                            <div>
+                                <p className="font-medium text-white">Delete Account</p>
+                                <p className="text-sm text-stone-400">Permanently delete your account and personal data</p>
+                            </div>
+                            <button
+                                onClick={handleDeleteAccount}
+                                className="flex items-center gap-2 bg-red-900/20 text-red-500 font-medium px-4 py-2 rounded-lg hover:bg-red-900/40 transition-colors border border-red-900/30"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                Delete Account
+                            </button>
                         </div>
                     </div>
                 </div>

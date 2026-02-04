@@ -21,7 +21,7 @@ const NavLinks = [
     href: "/shop",
     isDropdown: true,
     children: [
-      { name: "Shop List", href: "/shop" },
+      { name: "Products", href: "/shop" },
       { name: "Cart", href: "/cart" },
       { name: "Checkout", href: "/checkout" },
       { name: "Bulk Purchase", href: "/bulk-purchase" },

@@ -10,21 +10,33 @@ import { Loader2, ArrowRight } from "lucide-react";
 import { authApi } from "@/lib/api/auth";
 import { countries } from "@/lib/countries";
 
+import { OtpVerification } from "@/components/auth/OtpVerification";
+import { useAuthStore } from "@/store/auth-store";
+
 export default function CompanyJoinPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-      companyName: '',
-      contactName: '',
-      email: '',
-      phoneCode: '',
-      phone: '',
-      country: '',
-      password: ''
+    companyName: '',
+    contactName: '',
+    email: '',
+    phoneCode: '',
+    phone: '',
+    country: '',
+    password: ''
   });
   const [error, setError] = useState('');
 
+  // OTP State
+  const [otpRequired, setOtpRequired] = useState(false);
+  const [otpEmail, setOtpEmail] = useState("");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleLoginSuccess = (user: any) => {
+    useAuthStore.getState().login(user);
+    window.location.href = '/account/company';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,22 +45,23 @@ export default function CompanyJoinPage() {
     setError('');
 
     try {
-        await authApi.signup({
-            name: formData.contactName,
-            email: formData.email,
-            password: formData.password,
-            companyName: formData.companyName,
-            country: formData.country,
-            phoneNumber: `${formData.phoneCode} ${formData.phone}`,
-            role: 'COMPANY'
-        });
+      await authApi.signup({
+        name: formData.contactName,
+        email: formData.email,
+        password: formData.password,
+        companyName: formData.companyName,
+        country: formData.country,
+        phoneNumber: `${formData.phoneCode} ${formData.phone}`,
+        role: 'COMPANY'
+      });
 
-        
-        window.location.href = '/login?registered=true';
+      // Handle success: Show OTP
+      setOtpEmail(formData.email);
+      setOtpRequired(true);
     } catch (err: any) {
-        setError(err.message);
+      setError(err.message);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -70,153 +83,165 @@ export default function CompanyJoinPage() {
       <div className="relative z-10 w-full max-w-2xl p-8 md:p-12 border border-white/10 rounded-2xl bg-black/40 backdrop-blur-md animate-in fade-in zoom-in-95 duration-500 shadow-2xl">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-2 text-primary">
-            Corporate Partnership
+            {otpRequired ? "Verification" : "Corporate Partnership"}
           </h1>
           <p className="text-gray-400 text-sm">
-            Join our network of premium coffee partners
+            {otpRequired ? "Complete your partner application" : "Join our network of premium coffee partners"}
           </p>
         </div>
 
-        {error && (
-            <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm text-center">
+        {otpRequired ? (
+          <div className="max-w-md mx-auto">
+            <OtpVerification
+              email={otpEmail}
+              onSuccess={(data) => handleLoginSuccess(data.user)}
+            />
+          </div>
+        ) : (
+          <>
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm text-center">
                 {error}
-            </div>
-        )}
+              </div>
+            )}
 
-        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="companyName" className="text-xs uppercase tracking-widest text-gray-300">
-              Company Name
-            </Label>
-            <Input
-              id="companyName"
-              placeholder="Safari Enterprises Ltd."
-              required
-              value={formData.companyName}
-              onChange={handleChange}
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
-          </div>
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="companyName" className="text-xs uppercase tracking-widest text-gray-300">
+                  Company Name
+                </Label>
+                <Input
+                  id="companyName"
+                  placeholder="Safari Enterprises Ltd."
+                  required
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
+                />
+              </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="contactName" className="text-xs uppercase tracking-widest text-gray-300">
-              Contact Person
-            </Label>
-            <Input
-              id="contactName"
-              placeholder="Jane Smith"
-              required
-              value={formData.contactName}
-              onChange={handleChange}
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-xs uppercase tracking-widest text-gray-300">
-              Business Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="partnerships@company.com"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactName" className="text-xs uppercase tracking-widest text-gray-300">
+                  Contact Person
+                </Label>
+                <Input
+                  id="contactName"
+                  placeholder="Jane Smith"
+                  required
+                  value={formData.contactName}
+                  onChange={handleChange}
+                  className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
+                />
+              </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="country" className="text-xs uppercase tracking-widest text-gray-300">
-              Country
-            </Label>
-             <select
-              id="country"
-              required
-              value={formData.country}
-              onChange={(e) => {
-                  const country = countries.find(c => c.name === e.target.value);
-                  setFormData({ ...formData, country: e.target.value, phoneCode: country?.phone || '' });
-              }}
-              className="w-full bg-black/50 border border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 rounded-md px-3 appearance-none"
-            >
-                <option value="" disabled>Select Country</option>
-                {countries.map((c) => (
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-xs uppercase tracking-widest text-gray-300">
+                  Business Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="partnerships@company.com"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="country" className="text-xs uppercase tracking-widest text-gray-300">
+                  Country
+                </Label>
+                <select
+                  id="country"
+                  required
+                  value={formData.country}
+                  onChange={(e) => {
+                    const country = countries.find(c => c.name === e.target.value);
+                    setFormData({ ...formData, country: e.target.value, phoneCode: country?.phone || '' });
+                  }}
+                  className="w-full bg-black/50 border border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 rounded-md px-3 appearance-none"
+                >
+                  <option value="" disabled>Select Country</option>
+                  {countries.map((c) => (
                     <option key={c.code} value={c.name} className="bg-black text-white">{c.name}</option>
-                ))}
-            </select>
-          </div>
+                  ))}
+                </select>
+              </div>
 
-            <div className="space-y-2">
-            <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-gray-300">
-              Phone Number
-            </Label>
-            <div className="flex gap-2">
-                 <select
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-xs uppercase tracking-widest text-gray-300">
+                  Phone Number
+                </Label>
+                <div className="flex gap-2">
+                  <select
                     value={formData.phoneCode}
                     onChange={(e) => setFormData({ ...formData, phoneCode: e.target.value })}
                     className="w-24 bg-black/50 border border-white/10 text-white focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 rounded-md px-2 appearance-none"
-                >
-                     <option value="" disabled>Code</option>
-                     {countries.map((c) => (
-                        <option key={c.code} value={c.phone} className="bg-black text-white">{c.code} ({c.phone})</option>
+                  >
+                    <option value="" disabled>Code</option>
+                    {countries.map((c) => (
+                      <option key={c.code} value={c.phone} className="bg-black text-white">{c.code} ({c.phone})</option>
                     ))}
-                </select>
+                  </select>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="123 456 7890"
+                    required
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 flex-1"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="password" className="text-xs uppercase tracking-widest text-gray-300">
+                  Password
+                </Label>
                 <Input
-                id="phone"
-                type="tel"
-                placeholder="123 456 7890"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12 flex-1"
+                  id="password"
+                  type="password"
+                  placeholder="Create a strong password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
                 />
+              </div>
+
+              <div className="md:col-span-2 pt-4">
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-12 bg-primary text-black hover:bg-primary/90 uppercase tracking-widest font-bold text-sm transition-all"
+                >
+                  {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Submit Application"
+                  )}
+                </Button>
+              </div>
+            </form>
+
+            <div className="mt-8 text-center text-sm text-gray-500">
+              Already a partner?{" "}
+              <Link href="/login" className="text-primary hover:text-white transition-colors uppercase tracking-wider font-semibold">
+                Partner Login
+              </Link>
             </div>
-          </div>
 
-          <div className="space-y-2 md:col-span-2">
-             <Label htmlFor="password" className="text-xs uppercase tracking-widest text-gray-300">
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Create a strong password"
-              required
-              value={formData.password}
-              onChange={handleChange}
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-600 focus:border-primary/50 focus:ring-primary/20 h-10 md:h-12"
-            />
-          </div>
-
-          <div className="md:col-span-2 pt-4">
-            <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full h-12 bg-primary text-black hover:bg-primary/90 uppercase tracking-widest font-bold text-sm transition-all"
-            >
-                {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                "Submit Application"
-                )}
-            </Button>
-          </div>
-        </form>
-
-        <div className="mt-8 text-center text-sm text-gray-500">
-          Already a partner?{" "}
-          <Link href="/login" className="text-primary hover:text-white transition-colors uppercase tracking-wider font-semibold">
-            Partner Login
-          </Link>
-        </div>
-
-        <div className="mt-4 text-center">
-            <Link href="/join" className="text-xs text-gray-600 hover:text-gray-400 transition-colors flex items-center justify-center gap-1 group">
+            <div className="mt-4 text-center">
+              <Link href="/join" className="text-xs text-gray-600 hover:text-gray-400 transition-colors flex items-center justify-center gap-1 group">
                 <ArrowRight className="w-3 h-3 rotate-180 group-hover:-translate-x-1 transition-transform" /> Back to selection
-            </Link>
-        </div>
+              </Link>
+            </div>
+          </>
+        )}
+
       </div>
     </div>
   );

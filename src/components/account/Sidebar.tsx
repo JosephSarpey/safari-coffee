@@ -33,7 +33,7 @@ const sidebarItems: SidebarItem[] = [
     icon: StoreIcon,
     type: "user",
     children: [
-      { title: "Shop List", href: "/shop" },
+      { title: "Products", href: "/shop" },
       { title: "Cart", href: "/cart" },
       { title: "Checkout", href: "/checkout" },
       { title: "Bulk Purchase", href: "/bulk-purchase" },

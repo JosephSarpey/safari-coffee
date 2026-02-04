@@ -34,12 +34,22 @@ export interface OrderItem {
   };
 }
 
+export interface PaginatedOrders {
+  data: Order[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 export const orderApi = {
   /**
-   * Get all orders for the authenticated user
+   * Get all orders for the authenticated user, paginated
    */
-  async getUserOrders(): Promise<Order[]> {
-    return fetchClient<Order[]>('/user/orders');
+  async getUserOrders(page: number = 1, limit: number = 10): Promise<PaginatedOrders> {
+    return fetchClient<PaginatedOrders>(`/user/orders?page=${page}&limit=${limit}`);
   },
 
   /**

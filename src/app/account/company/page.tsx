@@ -15,6 +15,7 @@ import { useAuthStore } from "@/store/auth-store";
 function CompanyAccountPageContent() {
   const [company, setCompany] = useState<UserProfile | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -29,8 +30,9 @@ function CompanyAccountPageContent() {
         useAuthStore.getState().login(data); // Sync global store
 
         // Load orders
-        const companyOrders = await orderApi.getUserOrders();
-        setOrders(companyOrders);
+        const response = await orderApi.getUserOrders(1, 10);
+        setOrders(response.data);
+        setTotalOrders(response.meta.total);
       } catch (error: any) {
         console.error("Failed to load profile", error);
         setError(error.message || 'Failed to load profile');
@@ -106,7 +108,7 @@ function CompanyAccountPageContent() {
             </div>
             <div>
               <p className="text-sm text-stone-400">Total Orders</p>
-              <p className="text-2xl font-bold text-white">{orders.length}</p>
+              <p className="text-2xl font-bold text-white">{totalOrders}</p>
             </div>
           </div>
           <div className="bg-stone-900/60 backdrop-blur-sm p-6 rounded-xl shadow-xl border border-white/5 flex items-center gap-4">

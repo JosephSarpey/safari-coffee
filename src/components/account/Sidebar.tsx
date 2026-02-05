@@ -115,7 +115,7 @@ export function AccountSidebar({ type = "user" }: { type?: "user" | "company" })
   return (
     <div
       className={cn(
-        "bg-[#111] rounded-xl shadow-lg border border-white/10 overflow-hidden md:min-h-[calc(100vh-8rem)] flex flex-col transition-all duration-300 ease-in-out relative",
+        "bg-[#111] md:rounded-xl shadow-lg md:border border-white/10 overflow-hidden md:min-h-[calc(100vh-8rem)] flex flex-col transition-all duration-300 ease-in-out relative",
         isCollapsed ? "md:w-20" : "md:w-64",
         "w-full"
       )}
@@ -149,9 +149,9 @@ export function AccountSidebar({ type = "user" }: { type?: "user" | "company" })
       <nav className="bg-[#111] transition-all duration-300">
 
         {/* --- MOBILE LAYOUT --- */}
-        <div className="md:hidden flex flex-col">
+        <div className="md:hidden flex flex-col-reverse">
           {/* Level 1: Main Items */}
-          <div className="flex overflow-x-auto no-scrollbar p-2 gap-2 border-b border-white/5">
+          <div className="flex overflow-x-auto no-scrollbar p-2 gap-2 border-t border-white/10 bg-[#111]">
             {sidebarItems.map((item) => {
               if (item.type !== "common" && item.type !== type) return null;
               const Icon = item.icon;
@@ -197,7 +197,7 @@ export function AccountSidebar({ type = "user" }: { type?: "user" | "company" })
 
           {/* Level 2: Submenu (if expanded) */}
           {activeExpandedItem && activeExpandedItem.children && (
-            <div className="flex overflow-x-auto no-scrollbar p-2 gap-2 bg-white/5 animate-in slide-in-from-top-2 fade-in">
+            <div className="flex overflow-x-auto no-scrollbar p-2 gap-2 bg-[#1a1a1a] border-t border-white/10 animate-in slide-in-from-bottom-2 fade-in">
               {activeExpandedItem.children.map(child => (
                 <Link
                   key={child.title}

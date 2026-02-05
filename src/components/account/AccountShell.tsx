@@ -46,13 +46,13 @@ export function AccountShell({ children, type }: AccountShellProps) {
     return (
         <div className="container mx-auto px-4 md:px-8 max-w-7xl pt-6 pb-12">
             <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
-                {/* Sidebar - Sticky on Desktop */}
-                <aside className="w-full md:w-auto md:sticky md:top-24 md:self-start z-30">
+                {/* Sidebar - Sticky on Desktop, Fixed Bottom on Mobile */}
+                <aside className="fixed bottom-0 left-0 right-0 z-50 md:w-auto md:sticky md:top-24 md:self-start">
                     <AccountSidebar type={type} />
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 w-full min-w-0 space-y-8">
+                <main className="flex-1 w-full min-w-0 space-y-8 pb-32 md:pb-0">
                     {children}
                 </main>
             </div>

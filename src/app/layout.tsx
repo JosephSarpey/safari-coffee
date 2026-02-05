@@ -64,11 +64,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/logo_new.png", sizes: "32x32", type: "image/png" },
-      { url: "/images/logo_new.png", sizes: "16x16", type: "image/png" },
+      { url: "/images/logo_3.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo_3.png", sizes: "16x16", type: "image/png" },
     ],
-    shortcut: "/images/logo_new.png",
-    apple: "/images/logo_new.png",
+    shortcut: "/images/logo_3.png",
+    apple: "/images/logo_3.png",
   },
   robots: {
     index: true,

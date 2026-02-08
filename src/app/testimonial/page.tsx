@@ -1,49 +1,33 @@
 "use client";
 
 import PageHeader from "@/components/shared/PageHeader";
-import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight, User } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { testimonials } from "@/data/testimonial";
+import Link from "next/link";
 
-const testimonials = [
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_1.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_2.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_3.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_4.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_1.jpg"
-  },
-  {
-    name: "Roger Scott",
-    role: "Marketing Manager",
-    text: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
-    image: "/images/person_2.jpg"
-  }
-];
+function TestimonialAvatar({ src, alt }: { src: string; alt: string }) {
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-primary/20 bg-zinc-800 flex items-center justify-center">
+      {!error ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="56px"
+          className="object-cover"
+          onError={() => setError(true)}
+        />
+      ) : (
+        <User className="h-8 w-8 text-primary/40" />
+      )}
+    </div>
+  );
+}
 
 export default function TestimonialPage() {
   const [current, setCurrent] = useState(0);
@@ -112,9 +96,7 @@ export default function TestimonialPage() {
                         </p>
 
                         <div className="flex items-center space-x-4 pt-4">
-                          <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-primary/20">
-                            <Image src={item.image} alt={item.name} fill sizes="56px" className="object-cover" />
-                          </div>
+                          <TestimonialAvatar src={item.image} alt={item.name} />
                           <div>
                             <h4 className="text-white font-bold uppercase tracking-widest text-sm">{item.name}</h4>
                             <span className="text-primary text-[10px] uppercase font-black">{item.role}</span>
@@ -155,6 +137,26 @@ export default function TestimonialPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Google Review CTA */}
+      <section className="py-20 bg-zinc-900 border-y border-primary/10">
+        <div className="container text-center space-y-8">
+          <header className="space-y-4">
+            <h2 className="text-3xl font-black uppercase tracking-widest text-white">Loved Your Experience?</h2>
+            <p className="text-gray-400 max-w-xl mx-auto">
+              Your feedback helps us grow and keep providing the best Kenyan safari coffee experience. Share your story on Google!
+            </p>
+          </header>
+          <Link
+            href="https://share.google/x7XsqjOp6IkHnjofy"
+            target="_blank"
+            className="btn-primary inline-flex items-center space-x-2"
+          >
+            <span>Write a Google Review</span>
+            <Quote className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

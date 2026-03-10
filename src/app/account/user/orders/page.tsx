@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Package } from "lucide-react";
+import { Package, RefreshCw } from "lucide-react";
 import { orderApi, Order } from "@/lib/api/order";
+import { paymentApi } from "@/lib/api/payment";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function UserOrdersPage() {
@@ -12,6 +14,8 @@ export default function UserOrdersPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [retryingOrderId, setRetryingOrderId] = useState<string | null>(null);
+  const router = useRouter();
   const limit = 10;
 
   useEffect(() => {
@@ -52,6 +56,19 @@ export default function UserOrdersPage() {
         return "bg-blue-900/20 text-blue-400 border-blue-900/30";
       default:
         return "bg-stone-800 text-stone-400 border-stone-700";
+    }
+  };
+
+  const handleRetryPayment = async (orderId: string) => {
+    try {
+      setRetryingOrderId(orderId);
+      const { clientSecret, orderId: retryOrderId } = await paymentApi.retryPayment(orderId);
+      router.push(`/checkout/retry?clientSecret=${encodeURIComponent(clientSecret)}&orderId=${retryOrderId}`);
+    } catch (error: any) {
+      console.error("Error retrying payment:", error);
+      toast.error(error.message || "Failed to initiate payment retry. Please try again.");
+    } finally {
+      setRetryingOrderId(null);
     }
   };
 
@@ -135,12 +152,24 @@ export default function UserOrdersPage() {
                             </span>
                           </td>
                           <td className="py-4 text-right">
-                            <Link
-                              href={`/account/user/orders/${order.id}`}
-                              className="text-[#c49b63] hover:text-white text-xs font-medium border border-[#c49b63]/30 hover:border-white/30 px-3 py-1.5 rounded-full transition-all inline-block"
-                            >
-                              View
-                            </Link>
+                            <div className="flex items-center justify-end gap-2">
+                              {order.paymentStatus !== "succeeded" && order.status !== "Cancelled" && (
+                                <button
+                                  onClick={() => handleRetryPayment(order.id)}
+                                  disabled={retryingOrderId === order.id}
+                                  className="flex items-center gap-1.5 text-amber-400 hover:text-white text-xs font-medium border border-amber-400/30 hover:border-white/30 px-3 py-1.5 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  <RefreshCw className={cn("w-3 h-3", retryingOrderId === order.id && "animate-spin")} />
+                                  {retryingOrderId === order.id ? "Loading..." : "Retry Payment"}
+                                </button>
+                              )}
+                              <Link
+                                href={`/account/user/orders/${order.id}`}
+                                className="text-[#c49b63] hover:text-white text-xs font-medium border border-[#c49b63]/30 hover:border-white/30 px-3 py-1.5 rounded-full transition-all inline-block"
+                              >
+                                View
+                              </Link>
+                            </div>
                           </td>
                         </tr>
                       ))}

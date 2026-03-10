@@ -24,6 +24,14 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState<"description" | "additionalInfo" | "reviews">("description");
   const addItem = useCartStore((state) => state.addItem);
 
+  const WEIGHT_PRICES: Record<string, number> = {
+    "250g": 17.00,
+    "350g": 19.99,
+    "500g": 24.99,
+  };
+
+  const [selectedWeight, setSelectedWeight] = useState<string>("");
+
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -48,6 +56,13 @@ export default function ProductDetailPage() {
     fetchProduct();
   }, [id]);
 
+  // Default to first available weight once product loads
+  useEffect(() => {
+    if (product && product.weight.length > 0 && !selectedWeight) {
+      setSelectedWeight(product.weight[0]);
+    }
+  }, [product]);
+
   if (loading) {
     return (
       <div className="bg-zinc-950 min-h-screen">
@@ -62,6 +77,12 @@ export default function ProductDetailPage() {
   if (error || !product) {
     return notFound();
   }
+
+  const getPriceForWeight = (weight: string): number => {
+    return WEIGHT_PRICES[weight] ?? product?.price ?? 0;
+  };
+
+  const currentPrice = getPriceForWeight(selectedWeight);
 
   const handleAddToCart = () => {
     const isOutOfStock = product.status === "Out of Stock" || product.stock === 0;
@@ -80,7 +101,7 @@ export default function ProductDetailPage() {
     // Add items to cart with stock validation
     let successCount = 0;
     for (let i = 0; i < quantity; i++) {
-      const result = addItem(product, product.stock);
+      const result = addItem({ ...product, price: currentPrice }, product.stock, selectedWeight);
       if (result.success) {
         successCount++;
       } else {
@@ -127,7 +148,7 @@ export default function ProductDetailPage() {
               </h2>
               <div className="flex items-center space-x-4">
                 <span className="text-3xl font-bold text-primary">
-                  ${product.price.toFixed(2)}
+                  ${currentPrice.toFixed(2)}
                 </span>
                 <div className="flex items-center text-primary text-sm">
                   {[...Array(5)].map((_, i) => (
@@ -159,6 +180,31 @@ export default function ProductDetailPage() {
                 )}
               </div>
             </div>
+
+            {/* Weight Selection */}
+            {product.weight && product.weight.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Select Weight</p>
+                <div className="flex flex-wrap gap-3">
+                  {product.weight.map((w) => (
+                    <button
+                      key={w}
+                      onClick={() => setSelectedWeight(w)}
+                      className={`px-5 py-2 text-sm font-bold uppercase tracking-widest border transition-colors ${
+                        selectedWeight === w
+                          ? "border-primary bg-primary text-black"
+                          : "border-primary/30 text-gray-400 hover:border-primary hover:text-white"
+                      }`}
+                    >
+                      {w}
+                      <span className="ml-2 font-normal text-xs">
+                        ${(WEIGHT_PRICES[w] ?? product.price).toFixed(2)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Add to Cart */}
             <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-primary/20">

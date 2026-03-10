@@ -5,34 +5,30 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
 import { useCartStore } from "@/store/cart-store";
-import { toast } from "sonner";
 import { AlertCircle, PackageX } from "lucide-react";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const addItem = useCartStore((state) => state.addItem);
   const items = useCartStore((state) => state.items);
+
+  const WEIGHT_PRICES: Record<string, number> = {
+    "250g": 17.00,
+    "350g": 19.99,
+    "500g": 24.99,
+  };
+
+  // Compute the starting (lowest) price for this product based on available weights
+  const startingPrice = product.weight && product.weight.length > 0
+    ? Math.min(...product.weight.map(w => WEIGHT_PRICES[w] ?? product.price))
+    : product.price;
 
   const isOutOfStock = product.status === "Out of Stock" || product.stock === 0;
   const isLowStock = product.status === "Low Stock" && product.stock > 0;
 
-  // Get current quantity in cart
-  const cartItem = items.find((item) => item.id === product.id);
-  const quantityInCart = cartItem?.quantity || 0;
+  // Get total quantity of this product across all weight variants in cart
+  const quantityInCart = items
+    .filter((item) => item.id === product.id)
+    .reduce((sum, item) => sum + item.quantity, 0);
 
-  const handleAddToCart = () => {
-    if (isOutOfStock) {
-      toast.error("This product is out of stock");
-      return;
-    }
-
-    const result = addItem(product, product.stock);
-
-    if (result.success) {
-      toast.success(`${product.name} added to cart`);
-    } else {
-      toast.error(result.message || "Cannot add to cart");
-    }
-  };
 
   return (
     <motion.div
@@ -80,7 +76,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.description}
         </p>
         <p className="text-[#c49b63] text-lg font-normal">
-          ${product.price.toFixed(2)}
+          From ${startingPrice.toFixed(2)}
         </p>
 
         {/* Stock Info */}
@@ -96,14 +92,14 @@ export default function ProductCard({ product }: { product: Product }) {
           </p>
         )}
 
-        <button
-          onClick={handleAddToCart}
-          disabled={isOutOfStock}
-          className={`btn-white-outline py-2 px-4 text-xs mt-2 ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+        <Link
+          href={`/shop/${product.id}`}
+          className={`btn-white-outline py-2 px-4 text-xs mt-2 inline-block ${
+            isOutOfStock ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
+          }`}
         >
-          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-        </button>
+          {isOutOfStock ? 'Out of Stock' : 'Select Weight'}
+        </Link>
       </div>
     </motion.div>
   );

@@ -16,6 +16,12 @@ export interface PaymentIntentResponse {
   paymentIntentId: string;
 }
 
+export interface RetryPaymentResponse {
+  clientSecret: string;
+  paymentIntentId: string;
+  orderId: string;
+}
+
 export const paymentApi = {
   async createPaymentIntent(data: CreatePaymentIntentDto): Promise<PaymentIntentResponse> {
     return fetchClient<PaymentIntentResponse>('/payment/create-intent', {
@@ -41,4 +47,11 @@ export const paymentApi = {
       body: JSON.stringify(data),
     });
   },
+
+  async retryPayment(orderId: string): Promise<RetryPaymentResponse> {
+    return fetchClient<RetryPaymentResponse>(`/payment/retry/${orderId}`, {
+      method: 'POST',
+    });
+  },
 };
+

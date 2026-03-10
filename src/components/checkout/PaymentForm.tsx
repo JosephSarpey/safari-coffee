@@ -4,7 +4,7 @@ import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useState, FormEvent } from 'react';
 
 interface PaymentFormProps {
-    amount: number;
+    amount?: number;
     onSuccess?: () => void;
     onError?: (error: string) => void;
 }
@@ -73,8 +73,10 @@ export default function PaymentForm({ amount, onSuccess, onError }: PaymentFormP
                         <span className="animate-spin">⏳</span>
                         Processing...
                     </span>
-                ) : (
+                ) : amount ? (
                     `Pay $${amount.toFixed(2)}`
+                ) : (
+                    'Complete Payment'
                 )}
             </button>
 

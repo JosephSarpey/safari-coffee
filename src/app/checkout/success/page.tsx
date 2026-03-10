@@ -56,10 +56,11 @@ export default function CheckoutSuccessPage() {
                 const orderData = {
                     paymentIntentId: intentId,
                     total: paymentStatus.amount / 100, // Convert from cents to dollars
-                    items: cartItems.map((item: any) => ({
+                items: cartItems.map((item: any) => ({
                         productId: item.id,
                         quantity: item.quantity,
                         price: item.price,
+                        weight: item.weight,
                     })),
                     userId: user?.id || metadata.userId,
                 };

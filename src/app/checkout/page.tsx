@@ -142,6 +142,7 @@ export default function CheckoutPage() {
                         name: item.name,
                         quantity: item.quantity,
                         price: item.price,
+                        weight: item.weight,
                     })),
                 },
             });
@@ -494,11 +495,16 @@ export default function CheckoutPage() {
                                 </div>
                                 {items.map((item) => (
                                     <div
-                                        key={item.id}
+                                        key={item.cartItemId}
                                         className="flex justify-between text-sm py-2 border-b border-gray-800/50"
                                     >
                                         <span className="text-gray-300">
                                             {item.name}{" "}
+                                            {item.weight && (
+                                                <span className="text-xs bg-primary/10 text-primary border border-primary/20 px-1.5 py-0.5 rounded mx-1">
+                                                    {item.weight}
+                                                </span>
+                                            )}
                                             <strong className="text-primary">× {item.quantity}</strong>
                                         </span>
                                         <span className="font-bold text-gray-300">

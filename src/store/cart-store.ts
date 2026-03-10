@@ -2,8 +2,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product } from "@/data/products";
 
-interface CartItem extends Product {
+export interface CartItem extends Omit<Product, 'weight'> {
   quantity: number;
+  weight: string;       // selected weight variant (e.g. "250g")
+  cartItemId: string;   // unique key: `${product.id}-${weight}`
 }
 
 interface StockValidation {
@@ -13,9 +15,9 @@ interface StockValidation {
 
 interface CartStore {
   items: CartItem[];
-  addItem: (product: Product, maxStock?: number) => StockValidation;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number, maxStock?: number) => StockValidation;
+  addItem: (product: Product, maxStock?: number, weight?: string) => StockValidation;
+  removeItem: (cartItemId: string) => void;
+  updateQuantity: (cartItemId: string, quantity: number, maxStock?: number) => StockValidation;
   clearCart: () => void;
   totalItems: () => number;
   totalPrice: () => number;
@@ -25,14 +27,20 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: (product, maxStock) => {
+      addItem: (product, maxStock, weight = "") => {
+        const cartItemId = `${product.id}-${weight}`;
         const currentItems = get().items;
-        const existingItem = currentItems.find((item) => item.id === product.id);
+        const existingItem = currentItems.find((item) => item.cartItemId === cartItemId);
         const currentQuantity = existingItem ? existingItem.quantity : 0;
         const newQuantity = currentQuantity + 1;
 
         // Check stock limit if maxStock is provided
-        if (maxStock !== undefined && newQuantity > maxStock) {
+        // Stock is shared across all weight variants of a product
+        const totalProductQty = currentItems
+          .filter((item) => item.id === product.id)
+          .reduce((sum, item) => sum + item.quantity, 0);
+
+        if (maxStock !== undefined && totalProductQty + 1 > maxStock) {
           return {
             success: false,
             message: `Cannot add more. Only ${maxStock} items available in stock.`,
@@ -42,32 +50,35 @@ export const useCartStore = create<CartStore>()(
         if (existingItem) {
           set({
             items: currentItems.map((item) =>
-              item.id === product.id
+              item.cartItemId === cartItemId
                 ? { ...item, quantity: newQuantity }
                 : item
             ),
           });
         } else {
-          set({ items: [...currentItems, { ...product, quantity: 1 }] });
+          set({
+            items: [
+              ...currentItems,
+              { ...product, quantity: 1, weight, cartItemId },
+            ],
+          });
         }
 
         return { success: true };
       },
-      removeItem: (productId) => {
+      removeItem: (cartItemId) => {
         set({
-          items: get().items.filter((item) => item.id !== productId),
+          items: get().items.filter((item) => item.cartItemId !== cartItemId),
         });
       },
-      updateQuantity: (productId, quantity, maxStock) => {
-        // Validate quantity
+      updateQuantity: (cartItemId, quantity, maxStock) => {
         if (quantity < 1) {
           return {
             success: false,
-            message: 'Quantity must be at least 1.',
+            message: "Quantity must be at least 1.",
           };
         }
 
-        // Check stock limit if maxStock is provided
         if (maxStock !== undefined && quantity > maxStock) {
           return {
             success: false,
@@ -77,7 +88,7 @@ export const useCartStore = create<CartStore>()(
 
         set({
           items: get().items.map((item) =>
-            item.id === productId ? { ...item, quantity } : item
+            item.cartItemId === cartItemId ? { ...item, quantity } : item
           ),
         });
 

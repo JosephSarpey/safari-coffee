@@ -79,7 +79,7 @@ export default function CartPage() {
             </div>
 
             {items.map((item) => (
-              <div key={item.id} className="grid grid-cols-1 md:grid-cols-5 items-center gap-6 py-6 border-b border-primary/5">
+              <div key={item.cartItemId} className="grid grid-cols-1 md:grid-cols-5 items-center gap-6 py-6 border-b border-primary/5">
                 {/* Product Info */}
                 <div className="md:col-span-2 flex items-center space-x-4">
                   <div className="relative h-20 w-20 flex-shrink-0 border border-primary/10">
@@ -87,7 +87,14 @@ export default function CartPage() {
                   </div>
                   <div className="space-y-1">
                     <h3 className="font-bold text-white leading-tight">{item.name}</h3>
-                    <p className="text-xs text-primary uppercase">{item.category}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs text-primary uppercase">{item.category}</p>
+                      {item.weight && (
+                        <span className="text-xs bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded">
+                          {item.weight}
+                        </span>
+                      )}
+                    </div>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <button
@@ -105,7 +112,7 @@ export default function CartPage() {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel className="bg-transparent text-white border-primary/20 hover:bg-white/10 hover:text-white">Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => removeItem(item.id)} className="bg-red-500 hover:bg-red-600 text-white border-none">Remove</AlertDialogAction>
+                          <AlertDialogAction onClick={() => removeItem(item.cartItemId)} className="bg-red-500 hover:bg-red-600 text-white border-none">Remove</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -121,14 +128,14 @@ export default function CartPage() {
                 <div className="flex items-center justify-center">
                   <div className="flex items-center border border-primary/30 rounded-none bg-black">
                     <button
-                      onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                      onClick={() => updateQuantity(item.cartItemId, Math.max(1, item.quantity - 1))}
                       className="p-2 hover:text-primary transition-colors border-r border-primary/30"
                     >
                       <Minus className="h-4 w-4" />
                     </button>
                     <span className="px-4 font-bold min-w-[40px] text-center">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
                       className="p-2 hover:text-primary transition-colors border-l border-primary/30"
                     >
                       <Plus className="h-4 w-4" />
